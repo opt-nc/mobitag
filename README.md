@@ -41,6 +41,6 @@ go build mobitag.go
 # 🥳 Envoyer un `mobit@g`
 
 ```sh
-/mobitag -to 842984 -message "Hello World : a mobit@g from Go(lang) XD"
+./mobitag -to 842984 -message "Hello World : a mobit@g from Go(lang) XD"
 
 ```
