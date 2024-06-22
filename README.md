@@ -35,7 +35,7 @@ go build mobitag.go
 
 ```sh
 # Tester l'environnement
-./mobitag -dry-run
+./mobitag --dry-run
 
 ```
 # 🥳 Envoyer un `mobit@g`
