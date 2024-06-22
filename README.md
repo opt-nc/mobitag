@@ -15,7 +15,7 @@ depuis le terminal.
 
 # ✅ Prérequis
 
-- [x] Tooling Go
+- [x] Tooling `Go` ([installer `Go`](https://go.dev/doc/install))
 - [x] Une clé d'API, chargée dans l'environnement `OPTNC_MOBITAGNC_API_KEY`
 
 # 🚀 Getting started
