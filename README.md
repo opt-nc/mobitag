@@ -31,6 +31,7 @@ go build mobitag.go
 
 ```sh
 ./mobitag -h
+
 ```
 
 ```sh
