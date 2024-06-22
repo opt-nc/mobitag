@@ -45,3 +45,12 @@ go build mobitag.go
 ./mobitag -to xxxxxx -message "Hello World : a mobit@g from Go(lang) XD"
 
 ```
+
+# 📼 Buidler la demo video
+
+La video de demo est buildée avec [`charmbracelet/vhs`](https://github.com/charmbracelet/vhs):
+
+```sh
+vhs mobitag-cli.tape
+
+```
