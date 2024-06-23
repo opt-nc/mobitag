@@ -15,6 +15,8 @@ depuis le terminal.
 - Site web officiel http://www.mobitag.nc
 - [🥳 Mobitag.nc... 25 ans plus tard, des sms en SaaS via API{GEE}](https://dev.to/optnc/mobitagnc-25-ans-plus-tard-des-sms-en-saas-via-apigee-2h9e)
 - [📲 Mobitag.nc for dummies](https://www.kaggle.com/code/optnouvellecaldonie/mobitag-nc-for-dummies)
+- [⏱️ Mobitag Go Hackathon 2024-06-22 week-end 🤓](https://dev.to/adriens/mobitag-go-hackathon-2024-06-22-week-end-2n16)
+- [⏱️ Mobitag Hackathon week-end du 2024-06-22 🤓](https://youtu.be/yVoMg7CXgaM)
 
 # ✅ Prérequis
 
