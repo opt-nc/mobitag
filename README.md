@@ -7,6 +7,9 @@ et beaucoup plus motivant 🤓.
 Cette expérimentation a donc pur but de créer un cli permettant d'envoyer des mobitags
 depuis le terminal.
 
+![](media/mobitag-cli.gif)
+
+
 # 🔖 Ressources
 
 - Site web officiel http://www.mobitag.nc
