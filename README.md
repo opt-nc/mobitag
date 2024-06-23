@@ -23,6 +23,22 @@ depuis le terminal.
 
 # 🚀 Getting started
 
+## 🤓 `go install`
+
+```shell
+go install github.com/opt-nc/mobitag@latest
+export PATH=$PATH:$(go env GOPATH)/bin
+source ~/.bashrc
+
+```
+
+Puis : 
+
+```sh
+mobitag -h
+
+```
+
 ## ⚙️ Builder
 
 ```shell
