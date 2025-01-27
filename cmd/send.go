@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -36,7 +33,7 @@ func sendSMS(receiverMobile string, message string, senderMobile string) {
 	mobitagAPIKey := os.Getenv("OPTNC_MOBITAGNC_API_KEY")
 	apiURL := "https://api.opt.nc/mobitag/sendSms"
 
-	messageToSend := message + "\nFrom: " + senderMobile
+	messageToSend := senderMobile + "\\n" + message
 
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", apiURL, nil)
