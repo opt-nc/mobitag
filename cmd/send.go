@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -12,11 +13,16 @@ import (
 
 // sendCmd represents the send command
 var sendCmd = &cobra.Command{
-	Use:     "send",
+	Use:     "send --to <destinataire> --message <message>",
 	Aliases: []string{"s"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone.`,
-	//Usage:   "mobitag-cli send --to XXXXXX --message 'Hello world' --from XXXXXX",
+	PreRunE: func(cmd *cobra.Command, args []string) error {
+		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
+			log.Fatalf("❗ La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+		}
+		return nil
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		to, _ := cmd.Flags().GetString("to")
 		message, _ := cmd.Flags().GetString("message")
@@ -38,8 +44,7 @@ func sendSMS(receiverMobile string, message string, senderMobile string) {
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", apiURL, nil)
 	if err != nil {
-		fmt.Printf("An error occurred while creating the request: %v\n", err)
-		return
+		log.Fatalf("An error occurred while creating the request: %v\n", err)
 	}
 
 	// set request headers
@@ -53,8 +58,7 @@ func sendSMS(receiverMobile string, message string, senderMobile string) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Printf("❗An error occurred while sending the request: %v\n", err)
-		return
+		log.Fatalf("❗An error occurred while sending the request: %v\n", err)
 	}
 	defer resp.Body.Close()
 

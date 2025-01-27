@@ -8,10 +8,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "mobitag-cli",
-	Short: "Envoyer des sms avec Mobitag",
-	Long:  `CLI permettant d'envoyer des sms gratuits en contactant l'API de Mobitag`,
-
+	Use:     "mobitag-cli",
+	Short:   "Envoyer des sms avec Mobitag",
+	Long:    `CLI permettant d'envoyer des sms gratuits en contactant l'API de Mobitag`,
+	Example: `mobitag-cli send --to <destinataire> --message <message>`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
