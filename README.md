@@ -25,7 +25,7 @@ depuis le terminal.
 
 # 🚀 Getting started
 
-## 🤓 `go install`
+<!-- ## 🤓 `go install`
 
 ```shell
 go install github.com/opt-nc/mobitag@latest
@@ -39,33 +39,48 @@ Puis :
 ```sh
 mobitag -h
 
-```
+``` -->
 
 ## ⚙️ Builder
 
 ```shell
-go build mobitag.go
-
+task build
+# Ensuite l'ajouter dans le PATH
+echo "export PATH=$PATH:$(pwd)/bin" >> ~/.zshrc # ou ~/.bashrc selon votre shell
 ```
 
 # 🕹️ Essayer
 
 ```sh
-./mobitag -h
-
+mobitag-cli -h
 ```
 
 ```sh
 # Tester l'environnement
-./mobitag --dry-run
-
+mobitag-cli dryRun
 ```
+
 # 🥳 Envoyer un `mobit@g`
 
 ```sh
-./mobitag -to xxxxxx -message "Hello World : a mobit@g from Go(lang) XD"
-
+mobitag-cli send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
 ```
+
+# 🎯 Autocompletion
+
+Pour avoir plus d'informations sur l'autocompletion :
+
+```sh
+mobitag-cli completion <shell> --help
+```
+
+Exemple pour un shell zsh :
+
+```sh
+source <(mobitag-cli completion zsh)  # pour activer l'autocompletion dans le shell courant
+mobitag-cli completion zsh > "${fpath[1]}/_mobitag-cli" # pour installer l'autocompletion de manière permanente
+```
+
 
 # 📼 Buidler la demo video
 
@@ -73,5 +88,4 @@ La video de demo est buildée avec [`charmbracelet/vhs`](https://github.com/char
 
 ```sh
 vhs mobitag-cli.tape
-
 ```
