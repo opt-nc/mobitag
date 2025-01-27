@@ -8,7 +8,7 @@ Set MarginFill "#6B50FF"
 Set BorderRadius 10
 
 # Set up a 1200x600 terminal with 46px font.
-Set FontSize 20
+Set FontSize 14
 Set Width 1200
 Set Height 600
 
@@ -24,11 +24,12 @@ Sleep 1s
 # Type a command in the terminal
 Type "# 📜 Get source code"
 Enter
-Type "gh repo clone opt-nc/mobitag-cli"
+Type "gh repo clone supervinh/mobitag-cli"
 Enter
 Sleep 4000ms
 Type "cd mobitag-cli"
 Enter
+Sleep 2000ms
 Type "ls"
 Sleep 200ms
 Enter
@@ -39,12 +40,15 @@ Sleep 200ms
 Enter
 Type "# ⚙️ Build the cli"
 Enter
-Type "go build mobitag.go"
+Type "task build"
 Enter
 Sleep 3000ms
-Type "ls -ltr"
+Type "echo 'export PATH=$PATH:$(pwd)/bin' >> ~/.bashrc"
 Enter
-Sleep 3000ms
+Sleep 2000ms
+Type "source ~/.bashrc"
+Enter
+Sleep 2000ms
 
 Type "clear"
 Enter
@@ -53,22 +57,22 @@ Enter
 
 Type "# 📝 Get help"
 Enter
-Type "./mobitag --help"
+Type "mobitag-cli --help"
 Enter
 Sleep 2000ms
 
 
 Type "# 🧪 Test environment"
 Enter
-Type "./mobitag --dry-run"
+Type "mobitag-cli dryRun"
 Enter
 Sleep 2000ms
 
 Type "# 📲 Send sms"
 Enter
-Type `./mobitag -to ${MOBILIS_NUMBER} -message "Hello World : a mobitag from Go(lang) XD"`
+Type `mobitag-cli send --to ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
 Enter
-Sleep 3s
+Sleep 5s
 
 Type "# 📲 That's all folks!"
 Enter
@@ -76,5 +80,5 @@ Sleep 1s
 
 Type "# 🔖 Stay connected"
 Enter
-Type "# https://github.com/opt-nc/mobitag-cli"
+Type "# https://github.com/supervinh/mobitag-cli"
 Sleep 3s
