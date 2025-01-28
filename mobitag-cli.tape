@@ -43,12 +43,6 @@ Enter
 Type "task build"
 Enter
 Sleep 3000ms
-Type "echo 'export PATH=$PATH:$(pwd)/bin' >> ~/.bashrc"
-Enter
-Sleep 2000ms
-Type "source ~/.bashrc"
-Enter
-Sleep 2000ms
 
 Type "clear"
 Enter
@@ -57,20 +51,20 @@ Enter
 
 Type "# 📝 Get help"
 Enter
-Type "mobitag-cli --help"
+Type "./bin/mobitag-cli --help"
 Enter
 Sleep 2000ms
 
 
 Type "# 🧪 Test environment"
 Enter
-Type "mobitag-cli dryRun"
+Type "./bin/mobitag-cli dryRun"
 Enter
 Sleep 2000ms
 
 Type "# 📲 Send sms"
 Enter
-Type `mobitag-cli send --to ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
+Type `./bin/mobitag-cli send --to ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
 Enter
 Sleep 5s
 
