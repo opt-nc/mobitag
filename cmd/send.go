@@ -27,22 +27,20 @@ var sendCmd = &cobra.Command{
 		to, _ := cmd.Flags().GetString("to")
 		message, _ := cmd.Flags().GetString("message")
 		from, _ := cmd.Flags().GetString("from")
-		sendSMS(to, message, from)
+		SendSMS(to, message, from)
 	},
 }
 
 // sendSMS sends an SMS to the specified receiver mobile number
 // receiverMobile: the mobile number of the receiver, like 654321
 // message: the message to send
-func sendSMS(receiverMobile string, message string, senderMobile string) {
+func SendSMS(receiverMobile string, message string, senderMobile string) {
+	// Replace all newline characters with spaces
+	message = strings.ReplaceAll(message, "\n", " ")
+
 	// Get the Mobitag API key from the environment
 	mobitagAPIKey := os.Getenv("OPTNC_MOBITAGNC_API_KEY")
 	apiURL := "https://api.opt.nc/mobitag/sendSms"
-
-	messageToSend := message
-	if senderMobile != "" {
-		messageToSend = senderMobile + "\n" + message
-	}
 
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", apiURL, nil)
@@ -50,13 +48,25 @@ func sendSMS(receiverMobile string, message string, senderMobile string) {
 		log.Fatalf("An error occurred while creating the request: %v\n", err)
 	}
 
+	// log all parameters
+	fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+	fmt.Printf("📜  Message: %s", message)
+	if senderMobile != "" {
+		fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
+	}
+
 	// set request headers
 	req.Header.Set("Content-Type", "application/json")
 	// Authenticate the request
 	req.Header.Set("x-apikey", mobitagAPIKey)
 
-	// set request paylod with receiver mobile number and message
-	reqBody := fmt.Sprintf(`{"to":"%s","message":"%s"}`, receiverMobile, messageToSend)
+	// set request payload with receiver mobile number, message, and optionally sender mobile number
+	var reqBody string
+	if senderMobile != "" {
+		reqBody = fmt.Sprintf(`{"to":"%s","message":"%s","from":"%s"}`, receiverMobile, message, senderMobile)
+	} else {
+		reqBody = fmt.Sprintf(`{"to":"%s","message":"%s"}`, receiverMobile, message)
+	}
 	req.Body = io.NopCloser(strings.NewReader(reqBody))
 
 	resp, err := client.Do(req)
