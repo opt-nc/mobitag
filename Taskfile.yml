@@ -4,7 +4,7 @@ tasks:
     build:
         desc: Build the app
         cmds:
-        - GOFLAGS=-mod=mod go build -o bin/mobitag-cli main.go 
+        - GOFLAGS=-mod=mod go build -o bin/mobitag main.go 
 
     run: 
         desc: Run the app
