@@ -12,24 +12,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          go-version: 1.24  # Adjust to your Go version
+          node-version: 22
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: go mod tidy
-
-      - name: 🎯 Semantic Release
+      - name: 📦 Semantic Release
+        if: github.ref == 'refs/heads/main'
         id: release
         uses: cycjimmy/semantic-release-action@v4
         with:
           extra_plugins: |
             @semantic-release/exec
-            conventional-changelog-conventionalcommits
             @semantic-release/git
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPT_CI_TOKEN }} # un token particulier pour que les workflows sur release soient déclenchés
+            @semantic-release/release-notes-generator
+            conventional-changelog-conventionalcommits
 
       - name: 👍 Merge main back to dev
         if: github.ref == 'refs/heads/main' && steps.release.outputs.new_release_published == 'true'
