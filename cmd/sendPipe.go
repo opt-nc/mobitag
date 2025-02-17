@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -47,5 +44,8 @@ func init() {
 
 	sendPipeCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire")
 	sendPipeCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
-	sendPipeCmd.MarkFlagRequired("to")
+	err := sendPipeCmd.MarkFlagRequired("to")
+	if err != nil {
+		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
+	}
 }
