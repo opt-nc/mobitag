@@ -85,6 +85,14 @@ func init() {
 	sendCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire")
 	sendCmd.Flags().StringP("message", "m", "", "Message à envoyer")
 	sendCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
-	sendCmd.MarkFlagRequired("to")
-	sendCmd.MarkFlagRequired("message")
+	err := sendCmd.MarkFlagRequired("to")
+	if err != nil {
+		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
+	}
+
+	err = sendCmd.MarkFlagRequired("message")
+	if err != nil {
+		log.Fatalf("Erreur lors du marquage du flag 'message' comme requis : %v", err)
+	}
+
 }
