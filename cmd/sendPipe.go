@@ -35,7 +35,9 @@ var sendPipeCmd = &cobra.Command{
 			log.Fatalf("❗ Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
 		}
 
-		SendSMS(to, message, from)
+		cut, _ := cmd.Flags().GetBool("cut")
+
+		SendSMS(to, message, from, cut)
 	},
 }
 
@@ -48,4 +50,6 @@ func init() {
 	if err != nil {
 		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
 	}
+
+	sendPipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères")
 }

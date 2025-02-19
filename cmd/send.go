@@ -27,16 +27,25 @@ var sendCmd = &cobra.Command{
 		to, _ := cmd.Flags().GetString("to")
 		message, _ := cmd.Flags().GetString("message")
 		from, _ := cmd.Flags().GetString("from")
-		SendSMS(to, message, from)
+		cut, _ := cmd.Flags().GetBool("cut")
+		SendSMS(to, message, from, cut)
 	},
 }
 
 // sendSMS sends an SMS to the specified receiver mobile number
 // receiverMobile: the mobile number of the receiver, like 654321
 // message: the message to send
-func SendSMS(receiverMobile string, message string, senderMobile string) {
+func SendSMS(receiverMobile string, message string, senderMobile string, cut bool) {
 	// Replace all newline characters with spaces
 	message = strings.ReplaceAll(message, "\n", " ")
+
+	// Check if message exceeds 160 characters
+	if len(message) > 160 {
+		if !cut {
+			log.Fatalf("❗ Le message dépasse la limite de 160 caractères (%d caractères). Veuillez réduire la taille du message ou utiliser l'option --cut pour le couper automatiquement.\n", len(message))
+		}
+		message = message[:155] + "[...]"
+	}
 
 	// Get the Mobitag API key from the environment
 	mobitagAPIKey := os.Getenv("OPTNC_MOBITAGNC_API_KEY")
@@ -50,7 +59,7 @@ func SendSMS(receiverMobile string, message string, senderMobile string) {
 
 	// log all parameters
 	fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
-	fmt.Printf("📜  Message: %s", message)
+	fmt.Printf("📜  Message: %s\n", message)
 	if senderMobile != "" {
 		fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
 	}
@@ -94,5 +103,7 @@ func init() {
 	if err != nil {
 		log.Fatalf("Erreur lors du marquage du flag 'message' comme requis : %v", err)
 	}
+
+	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères")
 
 }
