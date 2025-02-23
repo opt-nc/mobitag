@@ -13,10 +13,13 @@ import (
 
 // sendCmd represents the send command
 var sendCmd = &cobra.Command{
-	Use:     "send --to <destinataire> --message <message>",
+	Use:     "send",
 	Aliases: []string{"s"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone.`,
+	Example: `mobitag send --to <destinataire> --message <message> --from <expéditeur>
+mobitag send --to 123456 --message "Hello, world!"
+mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
 			log.Fatalf("❗ La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
@@ -59,7 +62,7 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 
 	// log all parameters
 	fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
-	fmt.Printf("📜  Message: %s\n", message)
+	fmt.Printf("📜  Message envoyé: %s\n", message)
 	if senderMobile != "" {
 		fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
 	}
@@ -104,6 +107,6 @@ func init() {
 		log.Fatalf("Erreur lors du marquage du flag 'message' comme requis : %v", err)
 	}
 
-	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères")
+	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
 
 }
