@@ -24,6 +24,8 @@ builds:
       - windows
       - darwin
     binary: mobitag
+    ldflags:
+      - "-X 'mobitag-cli/cmd.Version={{.Version}}'"
 
 archives:
   - # this name template makes the OS and Arch compatible with the results of `uname`.
