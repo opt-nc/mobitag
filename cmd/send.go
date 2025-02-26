@@ -61,11 +61,11 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	}
 
 	// log all parameters
-	fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+	//fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
 	fmt.Printf("📜  Message envoyé: %s\n", message)
-	if senderMobile != "" {
-		fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
-	}
+	// if senderMobile != "" {
+	// 	fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
+	// }
 
 	// set request headers
 	req.Header.Set("Content-Type", "application/json")
