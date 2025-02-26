@@ -10,7 +10,7 @@ import (
 var aboutCmd = &cobra.Command{
 	Use:     "about",
 	Aliases: []string{"a"},
-	Short:   "Informations sur ce CLIi",
+	Short:   "Informations sur ce CLI",
 	Long:    `Ce cli d'innovation disruptive (périmètre fonctionnel, stack, Open Source) est la suite de tout un processus d'innovations et d'un contexte : il convient que l'utilisateur final puisse en prorendre connaissance...depuis le terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(`mobitag-cli : le plus court chemin entre le terminal et un mobitag.

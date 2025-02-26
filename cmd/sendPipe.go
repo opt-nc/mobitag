@@ -11,10 +11,13 @@ import (
 
 // sendPipeCmd represents the sendPipe command
 var sendPipeCmd = &cobra.Command{
-	Use:     "echo \"message\" | sendPipe --to <destinataire>",
+	Use:     "sendPipe --to <destinataire>",
 	Aliases: []string{"sp"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag depuis un pipe",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone depuis un pipe.`,
+	Example: `<sortie d'une commande> | mobitag sendPipe --to <destinataire> --from <expéditeur>
+pwd | mobitag sp --to 123456 --from 654321
+whoami | mobitag sp -t 123456 -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
 			log.Fatalf("❗ La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
@@ -51,5 +54,5 @@ func init() {
 		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
 	}
 
-	sendPipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères")
+	sendPipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
 }
