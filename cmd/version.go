@@ -6,6 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var Version string = "dev"
+
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:     "version",
@@ -14,7 +16,7 @@ var versionCmd = &cobra.Command{
 	Long:    `Affiche la version de l'application`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("v0.1.0")
+		fmt.Println(Version)
 	},
 }
 

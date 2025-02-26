@@ -1,6 +1,8 @@
 package main
 
-import "mobitag-cli/cmd"
+import (
+	"mobitag-cli/cmd"
+)
 
 func main() {
 	cmd.Execute()
