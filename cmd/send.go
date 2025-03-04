@@ -31,14 +31,17 @@ mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 		message, _ := cmd.Flags().GetString("message")
 		from, _ := cmd.Flags().GetString("from")
 		cut, _ := cmd.Flags().GetBool("cut")
-		SendSMS(to, message, from, cut)
+		hideSenderNumber, _ := cmd.Flags().GetBool("hide-sender-number")
+		hideReceiverNumber, _ := cmd.Flags().GetBool("hide-receiver-number")
+
+		SendSMS(to, message, from, cut, hideSenderNumber, hideReceiverNumber)
 	},
 }
 
 // sendSMS sends an SMS to the specified receiver mobile number
 // receiverMobile: the mobile number of the receiver, like 654321
 // message: the message to send
-func SendSMS(receiverMobile string, message string, senderMobile string, cut bool) {
+func SendSMS(receiverMobile string, message string, senderMobile string, cut bool, hideSenderNumber bool, hideReceiverNumber bool) {
 	// Replace all newline characters with spaces
 	message = strings.ReplaceAll(message, "\n", " ")
 
@@ -61,11 +64,20 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	}
 
 	// log all parameters
-	//fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+	if hideReceiverNumber {
+		fmt.Printf("📞  Destinataire: ******\n")
+
+	} else {
+		fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+	}
 	fmt.Printf("📜  Message envoyé: %s\n", message)
-	// if senderMobile != "" {
-	// 	fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
-	// }
+	if senderMobile != "" {
+		if hideSenderNumber {
+			fmt.Printf("📞  Expéditeur: ******\n")
+		} else {
+			fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
+		}
+	}
 
 	// set request headers
 	req.Header.Set("Content-Type", "application/json")
@@ -108,5 +120,7 @@ func init() {
 	}
 
 	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
+	sendCmd.Flags().BoolP("hide-sender-number", "s", false, "Masquer le numéro de l'expéditeur")
+	sendCmd.Flags().BoolP("hide-receiver-number", "r", false, "Masquer le numéro du destinataire")
 
 }

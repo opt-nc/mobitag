@@ -68,13 +68,13 @@ Sleep 2000ms
 
 Type "# 📲 Send sms"
 Enter
-Type `mobitag send --to ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
+Type `mobitag send --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD" --hide-sender-number --hide-receiver-number`
 Enter
 Sleep 5s
 
 Type "# 📲 Send sms with a pipe"
 Enter
-Type "echo 'Hello World : a mobitag from Go(lang) XD' | mobitag sendPipe --to ${MOBILIS_NUMBER}"
+Type `echo "Hello World : a mobitag from Go(lang) XD" | mobitag sendPipe --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER} --hide-sender-number --hide-receiver-number`
 Enter
 Sleep 5s
 
