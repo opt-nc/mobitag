@@ -54,7 +54,7 @@ source <(mobitag completion zsh)  # pour activer l'autocompletion dans le shell 
 mobitag completion zsh > "${fpath[1]}/_mobitag" # pour installer l'autocompletion de manière permanente
 ```
 
-![Exemple d'utilisation](media/mobitag-cli.gif)
+![Exemple d'utilisation](media/auth/mobitag.webm)
 
 # ❔ A propos
 
