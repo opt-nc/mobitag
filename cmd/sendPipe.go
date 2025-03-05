@@ -39,10 +39,9 @@ whoami | mobitag sp -t 123456 -f 654321`,
 		}
 
 		cut, _ := cmd.Flags().GetBool("cut")
-		hideSenderNumber, _ := cmd.Flags().GetBool("hide-sender-number")
-		hideReceiverNumber, _ := cmd.Flags().GetBool("hide-receiver-number")
+		verbose, _ := cmd.Flags().GetBool("verbose")
 
-		SendSMS(to, message, from, cut, hideSenderNumber, hideReceiverNumber)
+		SendSMS(to, message, from, cut, verbose)
 	},
 }
 
@@ -57,6 +56,5 @@ func init() {
 	}
 
 	sendPipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
-	sendPipeCmd.Flags().BoolP("hide-sender-number", "s", false, "Masquer le numéro de l'expéditeur")
-	sendPipeCmd.Flags().BoolP("hide-receiver-number", "r", false, "Masquer le numéro du destinataire")
+	sendPipeCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi du message")
 }

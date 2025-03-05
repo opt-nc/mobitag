@@ -1,5 +1,5 @@
 # Where should we write the GIF?
-Output media/auth/mobitag.webm
+Output media/no-auth/mobitag.webm
 
 Set Margin 60
 Set MarginFill "#6B50FF"
@@ -40,7 +40,7 @@ Type "# ⚙️ Build the cli"
 Enter
 Type "task build"
 Enter
-Sleep 5000ms
+Sleep 3000ms
 
 Type "# Add the cli to your path"
 Enter
@@ -68,13 +68,7 @@ Sleep 2000ms
 
 Type "# 📲 Send sms"
 Enter
-Type `mobitag send --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
-Enter
-Sleep 5s
-
-Type "# 📲 Send sms with a pipe"
-Enter
-Type `echo "Hello World : a mobitag from Go(lang) XD" | mobitag sendPipe --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER}`
+Type `mobitag send --to ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
 Enter
 Sleep 5s
 

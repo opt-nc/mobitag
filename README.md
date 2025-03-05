@@ -16,7 +16,7 @@ A venir
 
 ## Comment utiliser
 
-Une fois le binaire téléchargé et ajouté dans le PATH, vous pouvez lancer la commande `mobitag` dans votre terminal.
+Une fois le binaire téléchargé et ajouté dans le `PATH`, vous pouvez lancer la commande `mobitag` dans votre terminal.
 
 ```sh
 # Afficher l'aide
@@ -50,8 +50,13 @@ mobitag completion <shell> --help
 Exemple pour un shell zsh :
 
 ```sh
-source <(mobitag completion zsh)  # pour activer l'autocompletion dans le shell courant
-mobitag completion zsh > "${fpath[1]}/_mobitag" # pour installer l'autocompletion de manière permanente
+# Pour activer l'autocompletion dans le shell courant
+source <(mobitag completion zsh)
+```
+
+```sh
+# Pour installer l'autocompletion de manière permanente
+mobitag completion zsh > "${fpath[1]}/_mobitag"
 ```
 
 ![Exemple d'utilisation](media/auth/mobitag.webm)

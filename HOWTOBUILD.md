@@ -19,7 +19,7 @@ source ~/.zshrc # ou ~/.bashrc selon votre shell
 ## Compilation avec goreleaser
 
 ```shell
-goreleaser release --snapshot --clean
+task release
 ```
 
 ## Sans compilation
@@ -67,5 +67,5 @@ mobitag completion zsh > "${fpath[1]}/_mobitag" # pour installer l'autocompletio
 La video de demo est buildée avec [`charmbracelet/vhs`](https://github.com/charmbracelet/vhs):
 
 ```sh
-vhs mobitag.tape
+task auth
 ```
