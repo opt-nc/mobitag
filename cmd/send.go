@@ -31,14 +31,16 @@ mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 		message, _ := cmd.Flags().GetString("message")
 		from, _ := cmd.Flags().GetString("from")
 		cut, _ := cmd.Flags().GetBool("cut")
-		SendSMS(to, message, from, cut)
+		verbose, _ := cmd.Flags().GetBool("verbose")
+
+		SendSMS(to, message, from, cut, verbose)
 	},
 }
 
 // sendSMS sends an SMS to the specified receiver mobile number
 // receiverMobile: the mobile number of the receiver, like 654321
 // message: the message to send
-func SendSMS(receiverMobile string, message string, senderMobile string, cut bool) {
+func SendSMS(receiverMobile string, message string, senderMobile string, cut bool, verbose bool) {
 	// Replace all newline characters with spaces
 	message = strings.ReplaceAll(message, "\n", " ")
 
@@ -47,6 +49,7 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 		if !cut {
 			log.Fatalf("❗ Le message dépasse la limite de 160 caractères (%d caractères). Veuillez réduire la taille du message ou utiliser l'option --cut pour le couper automatiquement.\n", len(message))
 		}
+		log.Printf("⚠️  Le message dépasse la limite de 160 caractères (%d caractères). Il sera coupé pour ne pas excéder la limite.\n", len(message))
 		message = message[:155] + "[...]"
 	}
 
@@ -61,11 +64,14 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	}
 
 	// log all parameters
-	//fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+	if verbose {
+		if senderMobile != "" {
+			fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
+		}
+		fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+	}
+
 	fmt.Printf("📜  Message envoyé: %s\n", message)
-	// if senderMobile != "" {
-	// 	fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
-	// }
 
 	// set request headers
 	req.Header.Set("Content-Type", "application/json")
@@ -108,5 +114,6 @@ func init() {
 	}
 
 	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
+	sendCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi")
 
 }

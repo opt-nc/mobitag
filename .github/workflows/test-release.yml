@@ -11,7 +11,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      # - uses: charmbracelet/vhs-action@59641cdc7fadf3978db65eb8c6937ea2752f4ec3
+      #   with:
+      #     path: 'mobitag-auth.tape'
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     commit_message: "feat: Update generated VHS WEBM"
+      #     commit_user_name: vhs-action 📼
+      #     commit_user_email: actions@github.com
+      #     commit_author: vhs-action 📼 <actions@github.com>
+      #     file_pattern: '*.webm'
       - name: 📦 Semantic Release
         id: release
         uses: cycjimmy/semantic-release-action@v4
