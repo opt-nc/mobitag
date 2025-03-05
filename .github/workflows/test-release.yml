@@ -34,8 +34,6 @@ jobs:
             conventional-changelog-conventionalcommits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: 🚀 Build the vhs
-        run: vhs mobitag-auth.tape
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
