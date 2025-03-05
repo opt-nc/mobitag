@@ -39,8 +39,9 @@ whoami | mobitag sp -t 123456 -f 654321`,
 		}
 
 		cut, _ := cmd.Flags().GetBool("cut")
+		verbose, _ := cmd.Flags().GetBool("verbose")
 
-		SendSMS(to, message, from, cut)
+		SendSMS(to, message, from, cut, verbose)
 	},
 }
 
@@ -55,4 +56,5 @@ func init() {
 	}
 
 	sendPipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
+	sendPipeCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi du message")
 }

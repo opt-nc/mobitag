@@ -1,7 +1,5 @@
 # Where should we write the GIF?
-Output mobitag.gif
-Output mobitag.mp4
-Output mobitag.webm
+Output media/no-auth/mobitag.webm
 
 Set Margin 60
 Set MarginFill "#6B50FF"
@@ -22,14 +20,14 @@ Enter
 Sleep 1s
 
 # Type a command in the terminal
-Type "# 📜 Get source code"
-Enter
-Type "gh repo clone https://github.com/opt-nc/mobitag-cli.git"
-Enter
-Sleep 4000ms
-Type "cd mobitag-cli"
-Enter
-Sleep 2000ms
+# Type "# 📜 Get source code"
+# Enter
+# Type "gh repo clone https://github.com/opt-nc/mobitag-cli.git"
+# Enter
+# Sleep 4000ms
+# Type "cd mobitag-cli"
+# Enter
+# Sleep 2000ms
 Type "ls"
 Sleep 200ms
 Enter
@@ -80,5 +78,5 @@ Sleep 1s
 
 Type "# 🔖 Stay connected"
 Enter
-Type "# https://github.com/opt-nc/mobitag-cli.git"
+Type "# github.com/opt-nc/mobitag-cli"
 Sleep 3s

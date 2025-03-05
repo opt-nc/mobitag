@@ -1,6 +1,12 @@
 version: "3"
 
 tasks:
+    all:
+        desc: Build the app and the vhs without auth
+        cmds:
+        - task release
+        - task no-auth
+
     build:
         desc: Build the app
         cmds:
@@ -14,4 +20,21 @@ tasks:
     clean:
         desc: Remove all retrieved *.png files
         cmds:
-        - rm -r bin/
+        - rm -rf bin/
+        - rm -rf dist/
+        - rm -rf media/*
+
+    auth:
+        desc: Build the vhs with the OPTNC_MOBITAGNC_API_KEY
+        cmds:
+        - vhs mobitag-auth.tape
+
+    no-auth:
+        desc: Build the vhs without the OPTNC_MOBITAGNC_API_KEY
+        cmds:
+        - vhs mobitag-no-auth.tape
+
+    release:
+        desc: Build all the binaries with goreleaser
+        cmds:
+        - goreleaser release --snapshot --clean
