@@ -45,7 +45,7 @@ for me already" - Brian Kernighan ([see short](https://youtube.com/clip/UgkxtOCa
 
 ```sh
 # Exemple avec la commande `whoami`
-echo "Hello $(whoami) : alors on se le fait ce café ?" |\
+echo "Hello c'est $(whoami) : alors on se le fait ce café ?" |\
     mobitag sendPipe --to $DIDI_MOBILE
 ```
 
