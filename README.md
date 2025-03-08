@@ -32,7 +32,24 @@ mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
 mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD" --from yyyyyy
 ```
 
-## 🦥 Autocomplétion
+# 🤓 Cool oneliners
+
+Depuis le terminal, les oneliners sont super cools : en une commande concise exécutée en une seule ligne dans un terminal ou un script
+cela permet d’accomplir des tâches rapidement et efficacement, sans avoir à écrire un programme complet.
+
+## Gestion du `pipe` avec la commande `sendPipe`
+
+> "Hey I don't have to do anything here except glue together things that somebody else did 
+for me already" - Brian Kernighan ([see short](https://youtube.com/clip/UgkxtOCaReaRRQCOu5Oo5rrOgCwb56JoX7Gw?si=cJ1TTdKZbArizMmt))
+
+
+```sh
+# Exemple avec la commande `whoami`
+echo "Hello $(whoami) : alors on se le fait ce café ?" |\
+    mobitag sendPipe --to $DIDI_MOBILE
+```
+
+# 🦥 Autocomplétion
 
 Pour une UX optimale dans le terminal, il est possible d'activer l'autocomplétion :
 
