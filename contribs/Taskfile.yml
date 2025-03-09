@@ -1,0 +1,75 @@
+version: '3'
+
+vars:
+  CONFIG_DIR: "~/.config/mobitag"
+  ALIAS_FILE: "{{.CONFIG_DIR}}/alias.json"
+  EXPORT_SCRIPT: "{{.CONFIG_DIR}}/export_aliases.sh"
+
+tasks:
+  setup:
+    desc: "Ensure config directory and alias.json file exist"
+    cmds:
+      - "mkdir -p {{.CONFIG_DIR}}"
+      - "[ -f {{.ALIAS_FILE}} ] || echo '[]' > {{.ALIAS_FILE}}"
+
+  alias:add:
+    desc: "Add or update an alias"
+    cmds:
+      - "mkdir -p {{.CONFIG_DIR}}"
+      - "[ -f {{.ALIAS_FILE}} ] || echo '[]' > {{.ALIAS_FILE}}"
+      - |
+        if [ -z "{{.NAME}}" ] || [ -z "{{.NUMBER}}" ]; then 
+          echo "Usage: task alias:add NAME=John NUMBER=+1234567890"; 
+          exit 1; 
+        fi
+      - |
+        jq '. |= map(if .name == "{{.NAME}}" then .number = "{{.NUMBER}}" | .type = "{{.TYPE}}" | .notes = "{{.NOTES}}" else . end)' {{.ALIAS_FILE}} > {{.ALIAS_FILE}}.tmp && mv {{.ALIAS_FILE}}.tmp {{.ALIAS_FILE}} || echo "Alias updated"
+        # If alias doesn't exist, add it
+      - |
+        jq 'if (map(select(.name == "{{.NAME}}")) | length) == 0 then . + [{"name": "{{.NAME}}", "number": "{{.NUMBER}}", "type": "{{.TYPE}}", "notes": "{{.NOTES}}"}] else . end' {{.ALIAS_FILE}} > {{.ALIAS_FILE}}.tmp && mv {{.ALIAS_FILE}}.tmp {{.ALIAS_FILE}} || echo "Alias added"
+
+  alias:list:
+    desc: "List all stored aliases"
+    cmds:
+      - "[ -f {{.ALIAS_FILE}} ] || echo '[]' > {{.ALIAS_FILE}}"
+      - "jq '.' {{.ALIAS_FILE}}"
+
+  alias:resolve:
+    desc: "Get the phone number for an alias"
+    cmds:
+      - "[ -f {{.ALIAS_FILE}} ] || echo '[]' > {{.ALIAS_FILE}}"
+      - |
+        if [ -z "{{.NAME}}" ]; then 
+          echo "Usage: task alias:resolve NAME=John"; 
+          exit 1; 
+        fi
+      - "jq -r '.[] | select(.name == \"{{.NAME}}\") | .number // \"Alias not found\"' {{.ALIAS_FILE}}"
+
+  alias:remove:
+    desc: "Remove an alias"
+    cmds:
+      - "mkdir -p {{.CONFIG_DIR}}"
+      - "[ -f {{.ALIAS_FILE}} ] || echo '[]' > {{.ALIAS_FILE}}"
+      - |
+        if [ -z "{{.NAME}}" ]; then 
+          echo "Usage: task alias:remove NAME=John"; 
+          exit 1; 
+        fi
+      - "jq 'del(.[] | select(.name == \"{{.NAME}}\"))' {{.ALIAS_FILE}} > {{.ALIAS_FILE}}.tmp && mv {{.ALIAS_FILE}}.tmp {{.ALIAS_FILE}} || echo 'Alias not found.'"
+
+  alias:export:
+    desc: "Generate a script to export aliases as environment variables"
+    cmds:
+      - "mkdir -p {{.CONFIG_DIR}}"
+      - "[ -f {{.ALIAS_FILE}} ] || echo '[]' > {{.ALIAS_FILE}}"
+      - |
+        echo "#!/bin/bash" > {{.EXPORT_SCRIPT}}
+        echo "# Run 'source {{.EXPORT_SCRIPT}}' to load aliases" >> {{.EXPORT_SCRIPT}}
+        jq -r '.[] | "export MOBILIS_" + (.name | ascii_upcase) + "=\"" + .number + "\"" ' {{.ALIAS_FILE}} >> {{.EXPORT_SCRIPT}}
+      - "chmod +x {{.EXPORT_SCRIPT}}"
+      - "echo 'Run \"source {{.EXPORT_SCRIPT}}\" to load aliases into the current session.'"
+
+  default:
+    desc: "Run a default task if no task is specified"
+    cmds:
+      - echo "No task specified. Run one of the defined tasks like 'task alias:add', 'task alias:list', etc."
