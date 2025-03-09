@@ -1,5 +1,6 @@
 # Where should we write the GIF?
 Output media/auth/mobitag.webm
+Output media/auth/mobitag.gif
 
 Set Margin 60
 Set MarginFill "#6B50FF"

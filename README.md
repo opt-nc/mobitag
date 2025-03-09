@@ -80,7 +80,9 @@ cat secrets.txt\
     | mobitag sendPipe --to $MOBILIS_DEST
 ```
 
+# 📚 Exemples en vidéo
 
+![Exemple d'utilisation](media/auth/mobitag.gif)
 
 # 🦥 Autocomplétion
 
