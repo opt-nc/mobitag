@@ -56,3 +56,59 @@ release:
     ---
 
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+
+brews:
+  -
+    # Name of the recipe
+    name: mobitag
+
+    # Your app's description.
+    description: "mobitag-cli, le chemin le plus court entre le terminal et le sms."
+
+    # Homepage is the link to the project page of the formula.
+    homepage: https://github.com/opt-nc/mobitag-cli
+
+    # Repository to push the generated files to.
+    repository:
+      owner: opt-nc
+      name: homebrew-tap
+      # branch: brew-releases/{{ .Version }}
+      token: "{{ .Env.GITHUB_TOKEN }}"
+      # pull_request:
+      #   enabled: true
+      #   base:
+      #     owner: opt-nc
+      #     name: mobitag-cli
+      #     branch: main
+
+    # NOTE: make sure the url_template, the token and given repo (github or
+    # gitlab) owner and name are from the same kind.
+    # We will probably unify this in the next major version like it is
+    # done with scoop.
+
+    # URL which is determined by the given Token (github, gitlab or gitea).
+    #
+    # Default depends on the client.
+    # Templates: allowed
+    url_template: "https://github.com/opt-nc/mobitag-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+
+    # Allows you to set a custom download strategy. Note that you'll need
+    # to implement the strategy and add it to your tap repository.
+    # Example: https://docs.brew.sh/Formula-Cookbook#specifying-the-download-strategy-explicitly
+    download_strategy: CurlDownloadStrategy
+
+    # Git author used to commit to the repository.
+    commit_author:
+      name: goreleaserbot
+      email: goreleaserbot@opt.nc
+
+    # The project name and current git tag are used in the format string.
+    #
+    # Templates: allowed
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    
+    # Directory inside the repository to put the formula.
+    directory: Formula
+
+    # The formula license.
+    license: GPL-3.0
