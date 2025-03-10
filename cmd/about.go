@@ -21,7 +21,9 @@ Ce cli est l'aboutissement de tout un cheminement autour de mobitag et de sa dig
 2. Un premier hackathon 2024-06-22 : https://bit.ly/4gPqzSN
 3. Intégration à un assistant IA via Open Interpreter  : https://bit.ly/3D6iGKW
 
-📑 Ressources
+-------------------------------------------------------------------------
+
+# Ressources
 
 - Licence : [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.fr.html#license-text)
 - Code : https://github.com/opt-nc/mobitag-cli
