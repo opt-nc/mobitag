@@ -4,11 +4,17 @@
 
 # 🚀 QuickStart
 
-Pour installer : 
+Pour installer :
 
 - **Manuellement** : Se rendre sur la page de [releases](https://github.com/opt-nc/mobitag-cli/releases) et télécharger la version correspondant à votre système d'exploitation
-- **Automatique** : A venir via `brew` cf [mobitag-cli/issues/8](https://github.com/opt-nc/mobitag-cli/issues/8)  
+- **Automatique** : Installation via `brew` cf [homebrew-tap](https://github.com/opt-nc/homebrew-tap)
 
+```sh
+# Ajouter le tap
+brew tap opt-nc/tap
+# Installer le cli
+brew install mobitag
+```
 
 # 🕹️ Utiliser
 
