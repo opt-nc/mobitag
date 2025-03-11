@@ -44,6 +44,8 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLIC_HOMEBREW_TAP_TOKEN: ${{ secrets.PUBLIC_HOMEBREW_TAP_TOKEN }}
+
 
       - name: 👍 Merge main back to dev
         if: github.ref == 'refs/heads/main' && steps.release.outputs.new_release_published == 'true'
