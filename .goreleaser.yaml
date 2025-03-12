@@ -61,8 +61,6 @@ checksum:
   name_template: 'checksums.txt'
 
 sboms:
-  - id: mobitag
-    artifacts: binary
   - id: mobitag-source
     artifacts: archive
 
@@ -121,3 +119,5 @@ brews:
 
     # The formula license.
     license: GPL-3.0
+    
+    skip_upload: auto
