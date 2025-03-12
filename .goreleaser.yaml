@@ -57,6 +57,15 @@ release:
 
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
 
+checksum:
+  name_template: 'checksums.txt'
+
+sboms:
+  - id: mobitag
+    artifacts: binary
+  - id: mobitag-source
+    artifacts: archive
+
 brews:
   -
     # Name of the recipe

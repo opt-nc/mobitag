@@ -4,6 +4,11 @@ on:
   push:
     branches: [main, develop]
 
+permissions:
+  id-token: write
+  contents: read
+  attestations: write
+
 jobs:
   test-release:
     name: 🎯 Test & Release
@@ -45,7 +50,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLIC_HOMEBREW_TAP_TOKEN: ${{ secrets.PUBLIC_HOMEBREW_TAP_TOKEN }}
-
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-checksums: ./dist/checksums.txt
+        
 
       - name: 👍 Merge main back to dev
         if: github.ref == 'refs/heads/main' && steps.release.outputs.new_release_published == 'true'
