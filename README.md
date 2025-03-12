@@ -9,11 +9,24 @@ Pour installer :
 - **Manuellement** : Se rendre sur la page de [releases](https://github.com/opt-nc/mobitag-cli/releases) et télécharger la version correspondant à votre système d'exploitation
 - **Automatique** : Installation via `brew` cf [homebrew-tap](https://github.com/opt-nc/homebrew-tap)
 
+1. Ajouter le tap :
+
 ```sh
-# Ajouter le tap
 brew tap opt-nc/tap
-# Installer le cli
+```
+
+2. Installer `mobitag` :
+
+```sh
 brew install mobitag
+```
+
+3. Mettre à jour ([`brew update`](https://docs.brew.sh/FAQ#how-do-i-update-my-local-packages)):
+
+```sh
+brew update
+brew upgrade
+mobitag version
 ```
 
 # 🕹️ Utiliser
