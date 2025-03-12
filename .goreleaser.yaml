@@ -57,6 +57,13 @@ release:
 
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
 
+checksum:
+  name_template: 'checksums.txt'
+
+sboms:
+  - id: mobitag-source
+    artifacts: archive
+
 brews:
   -
     # Name of the recipe
@@ -112,3 +119,5 @@ brews:
 
     # The formula license.
     license: GPL-3.0
+    
+    skip_upload: auto
