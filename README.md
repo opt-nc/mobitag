@@ -9,23 +9,16 @@ Pour installer :
 - **Manuellement** : Se rendre sur la page de [releases](https://github.com/opt-nc/mobitag-cli/releases) et télécharger la version correspondant à votre système d'exploitation
 - **Automatique** : Installation via `brew` cf [homebrew-tap](https://github.com/opt-nc/homebrew-tap)
 
-1. Ajouter le tap :
+1. Installer `mobitag` :
 
 ```sh
-brew tap opt-nc/tap
+brew install opt-nc/homebrew-tap/mobitag
 ```
 
-2. Installer `mobitag` :
+2. Mettre à jour ([`brew update`](https://docs.brew.sh/FAQ#how-do-i-update-my-local-packages)):
 
 ```sh
-brew install mobitag
-```
-
-3. Mettre à jour ([`brew update`](https://docs.brew.sh/FAQ#how-do-i-update-my-local-packages)):
-
-```sh
-brew update
-brew upgrade
+brew update && brew upgrade
 mobitag version
 ```
 
@@ -33,21 +26,27 @@ mobitag version
 
 Une fois le binaire dans votre `PATH`, vous pouvez lancer la commande `mobitag` dans votre terminal:
 
-```sh
-# Afficher l'aide
-mobitag -h
-```
+Afficher l'aide :
 
 ```sh
-# Tester l'environnement afin de vérifier la présence de la clé API
+mobitag
+```
+
+Tester l'environnement afin de vérifier la présence de la clé API : 
+
+```sh
 mobitag dryRun
 ```
 
-```sh
-# Envoyer un `mobit@g`
-mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
+Envoyer un `mobit@g` : 
 
-# En indiquant également le numéro de l'expéditeur
+```sh
+mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
+```
+
+En indiquant également le numéro de l'expéditeur
+
+```sh
 mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD" --from yyyyyy
 ```
 
