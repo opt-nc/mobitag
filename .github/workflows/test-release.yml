@@ -30,7 +30,7 @@ jobs:
       #     file_pattern: '*.webm'
       - name: 📦 Semantic Release
         id: release
-        uses: cycjimmy/semantic-release-action@b1b432f13acb7768e0c8efdec416d363a57546f2
+        uses: cycjimmy/semantic-release-action@0a51e81a6baff2acad3ee88f4121c589c73d0f0e
         with:
           extra_plugins: |
             @semantic-release/exec
