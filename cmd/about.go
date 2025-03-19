@@ -2,8 +2,18 @@ package cmd
 
 import (
 	"fmt"
+	"runtime"
 
+	"github.com/common-nighthawk/go-figure"
 	"github.com/spf13/cobra"
+)
+
+// Variables injectées au build avec ldflags
+var (
+	Commit    = "none"
+	Date      = "unknown"
+	BuiltBy   = "GoReleaser"
+	GoVersion = runtime.Version()
 )
 
 // aboutCmd represents the about command
@@ -13,21 +23,29 @@ var aboutCmd = &cobra.Command{
 	Short:   "Informations sur ce CLI",
 	Long:    `Ce cli d'innovation disruptive (périmètre fonctionnel, stack, Open Source) est la suite de tout un processus d'innovations et d'un contexte : il convient que l'utilisateur final puisse en prorendre connaissance...depuis le terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(`mobitag-cli : le plus court chemin entre le terminal et un mobitag.
+		// Générer l'ASCII art
+		myFigure := figure.NewFigure("mobitag-cli", "doom", true)
+		myFigure.Print()
 
-Ce cli est l'aboutissement de tout un cheminement autour de mobitag et de sa digitalisation : 
+		fmt.Println("\"Le plus court chemin entre le terminal et un mobitag.\"")
 
-1. Célébration des 25 ans de mobitag avec l'API sur APIGEE : https://bit.ly/3WiwffU
-2. Un premier hackathon 2024-06-22 : https://bit.ly/4gPqzSN
-3. Intégration à un assistant IA via Open Interpreter  : https://bit.ly/3D6iGKW
+		// Affichage des métadonnées injectées
+		fmt.Println("\n--- Build Info ---")
+		fmt.Printf("%-20s %s\n", "GitVersion:", Version)
+		fmt.Printf("%-20s %s\n", "Git Commit:", Commit)
+		fmt.Printf("%-20s %s\n", "GitTreeState:", "clean") // Ajuste selon ton besoin
+		fmt.Printf("%-20s %s\n", "BuildDate:", Date)
+		fmt.Printf("%-20s %s\n", "BuiltBy:", BuiltBy)
+		fmt.Printf("%-20s %s\n", "GoVersion:", GoVersion)
+		fmt.Printf("%-20s %s\n", "Compiler:", runtime.Compiler)
+		fmt.Printf("%-20s %s/%s\n", "Platform:", runtime.GOOS, runtime.GOARCH)
 
--------------------------------------------------------------------------
+		fmt.Println("\n--- Ressources ---")
+		fmt.Printf("%-20s %s\n", "Licence:", "AGPLv3")
+		fmt.Printf("%-20s %s\n", "Code:", "https://github.com/opt-nc/mobitag-cli")
+		fmt.Printf("%-20s %s\n", "Roadmap:", "https://github.com/orgs/opt-nc/projects/24")
+		fmt.Printf("%-20s %s\n", "Site Web:", "http://www.mobitag.nc")
 
-# Ressources
-
-- Licence : [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.fr.html#license-text)
-- Code : https://github.com/opt-nc/mobitag-cli
-- Roadmap : https://github.com/orgs/opt-nc/projects/24`)
 	},
 }
 
