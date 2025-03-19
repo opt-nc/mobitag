@@ -1,4 +1,4 @@
-module mobitag-cli
+module github.com/opt-nc/mobitag-cli
 
 go 1.24
 
