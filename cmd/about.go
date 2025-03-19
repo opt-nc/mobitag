@@ -12,10 +12,11 @@ import (
 
 // Variables injectées au build avec ldflags
 var (
-	Commit    = "none"
-	Date      = "unknown"
-	BuiltBy   = "GoReleaser"
-	GoVersion = runtime.Version()
+	Commit       = "none"
+	Date         = "unknown"
+	BuiltBy      = "GoReleaser"
+	GoVersion    = runtime.Version()
+	GitTreeState = "unknown"
 )
 
 // aboutCmd represents the about command

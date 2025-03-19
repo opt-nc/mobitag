@@ -28,6 +28,7 @@ builds:
       - "-X 'mobitag-cli/cmd.Version={{.Version}}'"
       - "-X 'mobitag-cli/cmd.Commit={{.Commit}}'"
       - "-X 'mobitag-cli/cmd.Date={{.Date}}'"
+      - "-X 'mobitag-cli/cmd.GitTreeState={{.GitTreeState}}'"
 
 archives:
   - # this name template makes the OS and Arch compatible with the results of `uname`.
