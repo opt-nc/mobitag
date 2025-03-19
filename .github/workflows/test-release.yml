@@ -16,18 +16,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: 🚀 Setup Go
+        uses: actions/setup-go@v5.4.0
+      - name: 🧪 Generate the gif with vhs
+        run: |
+          go install github.com/charmbracelet/vhs@latest
+          vhs mobitag-auth.tape
       # - uses: charmbracelet/vhs-action@59641cdc7fadf3978db65eb8c6937ea2752f4ec3
       #   with:
       #     path: 'mobitag-auth.tape'
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     commit_message: "feat: Update generated VHS WEBM"
-      #     commit_user_name: vhs-action 📼
-      #     commit_user_email: actions@github.com
-      #     commit_author: vhs-action 📼 <actions@github.com>
-      #     file_pattern: '*.webm'
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit_message: "feat: Update generated VHS GIF"
+          commit_user_name: vhs-action 📼
+          commit_user_email: actions@github.com
+          commit_author: vhs-action 📼 <actions@github.com>
+          file_pattern: '*.gif'
       - name: 📦 Semantic Release
         id: release
         uses: cycjimmy/semantic-release-action@b1b432f13acb7768e0c8efdec416d363a57546f2
