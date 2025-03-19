@@ -24,7 +24,7 @@ jobs:
           sudo apt install -y ffmpeg ttyd
           go install github.com/charmbracelet/vhs@latest
           vhs mobitag-auth.tape
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
