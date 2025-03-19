@@ -11,12 +11,11 @@ Set FontSize 14
 Set Width 1200
 Set Height 600
 
-Enter
 Type "# ⚙️ Build from source"
 Enter
 Type "go build -o bin/mobitag main.go"
 Enter
-Sleep 7000ms
+Sleep 5000ms
 
 Type "# Add the cli to your path"
 Enter
@@ -34,6 +33,11 @@ Type "mobitag --help"
 Enter
 Sleep 2000ms
 
+Type "# 📝 About mobitag"
+Enter
+Type "mobitag about"
+Enter
+Sleep 2000ms
 
 Type "# 🧪 Test environment"
 Enter
