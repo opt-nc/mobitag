@@ -39,7 +39,7 @@ Sleep 200ms
 Enter
 Type "# ⚙️ Build the cli"
 Enter
-Type "task build"
+Type "go build -o bin/mobitag main.go"
 Enter
 Sleep 5000ms
 

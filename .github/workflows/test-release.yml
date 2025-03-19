@@ -24,9 +24,6 @@ jobs:
           sudo apt install -y ffmpeg ttyd
           go install github.com/charmbracelet/vhs@latest
           vhs mobitag-auth.tape
-      # - uses: charmbracelet/vhs-action@59641cdc7fadf3978db65eb8c6937ea2752f4ec3
-      #   with:
-      #     path: 'mobitag-auth.tape'
       - uses: stefanzweifel/git-auto-commit-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,7 +32,7 @@ jobs:
           commit_user_name: vhs-action 📼
           commit_user_email: actions@github.com
           commit_author: vhs-action 📼 <actions@github.com>
-          file_pattern: '*.gif'
+          file_pattern: '*.gif,*.webm'
       - name: 📦 Semantic Release
         id: release
         uses: cycjimmy/semantic-release-action@0a51e81a6baff2acad3ee88f4121c589c73d0f0e
