@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-go@v5.4.0
       - name: 🧪 Generate the gif with vhs
         run: |
-          apt install ffmpeg
+          sudo apt install ffmpeg -y
           go install github.com/charmbracelet/vhs@latest
           vhs mobitag-auth.tape
       # - uses: charmbracelet/vhs-action@59641cdc7fadf3978db65eb8c6937ea2752f4ec3
