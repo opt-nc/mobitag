@@ -26,6 +26,8 @@ builds:
     binary: mobitag
     ldflags:
       - "-X 'mobitag-cli/cmd.Version={{.Version}}'"
+      - "-X 'mobitag-cli/cmd.Commit={{.Commit}}'"
+      - "-X 'mobitag-cli/cmd.Date={{.Date}}'"
 
 archives:
   - # this name template makes the OS and Arch compatible with the results of `uname`.
