@@ -19,6 +19,9 @@ jobs:
       - name: 🚀 Setup Go
         uses: actions/setup-go@v5.4.0
       - name: 🧪 Generate the gif with vhs
+        env:
+          OPTNC_MOBITAGNC_API_KEY: ${{ secrets.OPTNC_MOBITAGNC_API_KEY }}
+          MOBILIS_NUMBER: ${{ secrets.MOBILIS_NUMBER }}
         run: |
           sudo apt update
           sudo apt install -y ffmpeg ttyd
@@ -27,8 +30,6 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPTNC_MOBITAGNC_API_KEY: ${{ secrets.OPTNC_MOBITAGNC_API_KEY }}
-          MOBILIS_NUMBER: ${{ secrets.MOBILIS_NUMBER }}
         with:
           commit_message: "feat: Update generated VHS GIF"
           commit_user_name: vhs-action 📼
