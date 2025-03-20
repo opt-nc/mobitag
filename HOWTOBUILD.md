@@ -1,9 +1,9 @@
 # ✅ Prérequis
 
-- [x] Tooling `Go` ([installer `Go`](https://go.dev/doc/install))
-- [x] Une clé d'API, chargée dans l'environnement `OPTNC_MOBITAGNC_API_KEY`
-- [x] [Task](https://taskfile.dev/#/installation) pour builder le projet
-- [x] [Goreleaser](https://goreleaser.com/install/) pour builder le projet sur plusieurs plateformes
+- ✅ Tooling `Go` ([installer `Go`](https://go.dev/doc/install))
+- ✅ Une clé d'API, chargée dans l'environnement `OPTNC_MOBITAGNC_API_KEY`
+- ✅ [Task](https://taskfile.dev/#/installation) pour builder le projet
+- ✅ [Goreleaser](https://goreleaser.com/install/) pour builder le projet sur plusieurs plateformes
 
 # 🚀 Getting started
 
