@@ -11,35 +11,9 @@ Set FontSize 14
 Set Width 1200
 Set Height 600
 
-# Type a command in the terminal.
-Type "# 🙌 Welcome to mobitag cli demo"
-
-Sleep 500ms
-# Run the command by pressing enter.
+Type "# ⚙️ Build from source"
 Enter
-Enter
-Sleep 1s
-
-# Type a command in the terminal
-# Type "# 📜 Get source code"
-# Enter
-# Type "gh repo clone https://github.com/opt-nc/mobitag-cli.git"
-# Enter
-# Sleep 4000ms
-# Type "cd mobitag-cli"
-# Enter
-# Sleep 2000ms
-Type "ls"
-Sleep 200ms
-Enter
-Sleep 1s
-Sleep 200ms
-# Run the command by pressing enter.
-
-Enter
-Type "# ⚙️ Build the cli"
-Enter
-Type "task build"
+Type "go build -o bin/mobitag main.go"
 Enter
 Sleep 5000ms
 
@@ -47,7 +21,6 @@ Type "# Add the cli to your path"
 Enter
 Type "export PATH=$PATH:$(pwd)/bin"
 Enter
-Sleep 2000ms
 
 Type "clear"
 Enter
@@ -60,6 +33,11 @@ Type "mobitag --help"
 Enter
 Sleep 2000ms
 
+Type "# 📝 About mobitag"
+Enter
+Type "mobitag about"
+Enter
+Sleep 2000ms
 
 Type "# 🧪 Test environment"
 Enter
@@ -69,13 +47,13 @@ Sleep 2000ms
 
 Type "# 📲 Send sms"
 Enter
-Type `mobitag send --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER} --message "Hello World : a mobitag from Go(lang) XD"`
+Type `mobitag send --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER} --message "The CI successfully sent a mobitag"`
 Enter
 Sleep 5s
 
 Type "# 📲 Send sms with a pipe"
 Enter
-Type `echo "Hello World : a mobitag from Go(lang) XD" | mobitag sendPipe --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER}`
+Type `echo "The CI successfully piped a mobitag" | mobitag sendPipe --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER}`
 Enter
 Sleep 5s
 

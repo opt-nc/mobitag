@@ -1,6 +1,19 @@
+# 📚 Mobitag
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/opt-nc/mobitag)
+![GitHub Workflow Status](https://github.com/opt-nc/mobitag/actions/workflows/test-release.yml/badge.svg)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/opt-nc/mobitag)
+![GitHub License](https://img.shields.io/github/license/opt-nc/mobitag)
+![GitHub Repo stars](https://img.shields.io/github/stars/opt-nc/mobitag)
+[![Powered By: GoReleaser](https://img.shields.io/badge/powered%20by-goreleaser-green.svg)](https://github.com/goreleaser)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
+
+![Exemple d'utilisation](media/auth/mobitag.gif)
+
 # 🔑 Prérequis
 
-- [x] Une clé d'API, chargée dans l'environnement `OPTNC_MOBITAGNC_API_KEY`
+- ✅ La clé d'API `OPTNC_MOBITAGNC_API_KEY` chargée dans la session
 
 # 🚀 QuickStart
 
@@ -9,32 +22,73 @@ Pour installer :
 - **Manuellement** : Se rendre sur la page de [releases](https://github.com/opt-nc/mobitag-cli/releases) et télécharger la version correspondant à votre système d'exploitation
 - **Automatique** : Installation via `brew` cf [homebrew-tap](https://github.com/opt-nc/homebrew-tap)
 
+1. Installer `mobitag`
+
+Avec `brew` : 
+
 ```sh
-# Ajouter le tap
-brew tap opt-nc/tap
-# Installer le cli
-brew install mobitag
+brew install opt-nc/homebrew-tap/mobitag
+```
+
+Ou tout simplement avec `go` :
+
+```sh
+go install github.com/opt-nc/mobitag-cli@latest
+```
+
+2. Mettre à jour :
+
+```sh
+brew update && brew upgrade
+mobitag version
+```
+
+# 🦥 Autocomplétion
+
+Pour une UX optimale dans le terminal, il est possible d'activer l'autocomplétion :
+
+```sh
+# Pour avoir plus d'informations sur l'autocompletion :
+mobitag completion <shell> --help
+
+# <shell> peut être bash, zsh, fish, powershell.
+```
+
+Sous `zsh` :
+
+```sh
+# Pour activer l'autocompletion dans le shell courant
+source <(mobitag completion zsh)
+```
+
+```sh
+# Pour installer l'autocompletion de manière permanente
+mobitag completion zsh > "${fpath[1]}/_mobitag"
 ```
 
 # 🕹️ Utiliser
 
-Une fois le binaire dans votre `PATH`, vous pouvez lancer la commande `mobitag` dans votre terminal:
+Afficher l'aide :
 
 ```sh
-# Afficher l'aide
-mobitag -h
+mobitag
 ```
 
+Tester l'environnement afin de vérifier la présence de la clé API : 
+
 ```sh
-# Tester l'environnement afin de vérifier la présence de la clé API
 mobitag dryRun
 ```
 
-```sh
-# Envoyer un `mobit@g`
-mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
+Envoyer un `mobit@g` : 
 
-# En indiquant également le numéro de l'expéditeur
+```sh
+mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
+```
+
+En indiquant également le numéro de l'expéditeur
+
+```sh
 mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD" --from yyyyyy
 ```
 
@@ -86,41 +140,14 @@ cat secrets.txt\
     | mobitag sendPipe --to $MOBILIS_DEST
 ```
 
-# 📚 Exemples en vidéo
-
-![Exemple d'utilisation](media/auth/mobitag.gif)
-
-# 🦥 Autocomplétion
-
-Pour une UX optimale dans le terminal, il est possible d'activer l'autocomplétion :
-
-```sh
-# Pour avoir plus d'informations sur l'autocompletion :
-mobitag completion <shell> --help
-
-# <shell> peut être bash, zsh, fish, powershell.
-```
-
-Sous `zsh` :
-
-```sh
-# Pour activer l'autocompletion dans le shell courant
-source <(mobitag completion zsh)
-```
-
-```sh
-# Pour installer l'autocompletion de manière permanente
-mobitag completion zsh > "${fpath[1]}/_mobitag"
-```
-
 # 🧑‍🤝‍🧑 Equipe
 
-Ce projet d'innovation frugale n'aurait pas vu le jour sans une équipe, par ordre d'entré sur le projet : 
+Ce projet d'innovation frugale n'aurait pas vu le jour sans une équipe, par ordre d'entré sur le projet :
 
-1. [Michèle BARRE](https://www.linkedin.com/in/michelebarre/), aka. [`@mbarre`](https://github.com/mbarre/) : backend dev et UX bêta-testeuse
-2. [Adrien SALES](https://www.linkedin.com/in/adrien-sales/), aka. [`@adriens/`](https://github.com/adriens/) : Premier proto Go, Story Teller, Product Owner et alpha testeur
-3. [Vinh FAUCHER](https://www.linkedin.com/in/vinh-faucher/) aka. [`@supervinh/`](https://github.com/supervinh/) : Core Go dev
-4. [Romain PELIZZO](https://www.linkedin.com/in/romain-pelizzo/) aka. [`@Draks898`](https://github.com/Draks898) : Bêta-testeur
+1. [👱‍♀️ Michèle BARRE](https://www.linkedin.com/in/michelebarre/), aka. [`@mbarre`](https://github.com/mbarre/) : backend dev et UX bêta-testeuse
+2. [🤓 Adrien SALES](https://www.linkedin.com/in/adrien-sales/), aka. [`@adriens`](https://github.com/adriens/) : Premier proto Go, Story Teller, Product Owner et alpha testeur
+3. [🥋 Vinh FAUCHER](https://www.linkedin.com/in/vinh-faucher/) aka. [`@supervinh`](https://github.com/supervinh/) : Core Go dev
+4. [🧑🏾‍🦱 Romain PELIZZO](https://www.linkedin.com/in/romain-pelizzo/) aka. [`@Draks898`](https://github.com/Draks898) : Bêta-testeur
 5. 📊 Liste exhaustive des [contributeurs](https://github.com/opt-nc/mobitag-cli/graphs/contributors)
 
 # 📖 Histoire de ce `cli`
@@ -128,7 +155,7 @@ Ce projet d'innovation frugale n'aurait pas vu le jour sans une équipe, par ord
 Cette repo était à l'origine une **première expérimentation dont le but était de découvrir le language [`Go`](https://go.dev/)**,
 sur un cas concret car... c'est plus amusant et beaucoup plus motivant 🤓.
 
-Cette expérimentation avait donc pur but de : 
+Cette expérimentation avait donc pour but de :
 
 > créer un `cli` permettant d'envoyer des mobitags depuis le terminal.
 

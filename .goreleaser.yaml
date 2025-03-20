@@ -25,7 +25,10 @@ builds:
       - darwin
     binary: mobitag
     ldflags:
-      - "-X 'mobitag-cli/cmd.Version={{.Version}}'"
+      - "-X 'github.com/opt-nc/mobitag/cmd.Version={{.Version}}'"
+      - "-X 'github.com/opt-nc/mobitag/cmd.Commit={{.Commit}}'"
+      - "-X 'github.com/opt-nc/mobitag/cmd.Date={{.Date}}'"
+      - "-X 'github.com/opt-nc/mobitag/cmd.GitTreeState={{.GitTreeState}}'"
 
 archives:
   - # this name template makes the OS and Arch compatible with the results of `uname`.

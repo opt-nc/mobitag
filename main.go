@@ -1,7 +1,7 @@
 package main
 
 import (
-	"mobitag-cli/cmd"
+	"github.com/opt-nc/mobitag/cmd"
 )
 
 func main() {

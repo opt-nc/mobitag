@@ -16,21 +16,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      # - uses: charmbracelet/vhs-action@59641cdc7fadf3978db65eb8c6937ea2752f4ec3
-      #   with:
-      #     path: 'mobitag-auth.tape'
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     commit_message: "feat: Update generated VHS WEBM"
-      #     commit_user_name: vhs-action 📼
-      #     commit_user_email: actions@github.com
-      #     commit_author: vhs-action 📼 <actions@github.com>
-      #     file_pattern: '*.webm'
+      - name: 🚀 Setup Go
+        uses: actions/setup-go@v5.4.0
+      - name: 🧪 Generate the gif with vhs
+        env:
+          OPTNC_MOBITAGNC_API_KEY: ${{ secrets.OPTNC_MOBITAGNC_API_KEY }}
+          MOBILIS_NUMBER: ${{ secrets.MOBILIS_NUMBER }}
+        run: |
+          sudo apt update
+          sudo apt install -y ffmpeg ttyd
+          go install github.com/charmbracelet/vhs@latest
+          vhs mobitag-auth.tape
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit_message: "feat: Update generated VHS GIF"
+          commit_user_name: vhs-action 📼
+          commit_user_email: actions@github.com
+          commit_author: vhs-action 📼 <actions@github.com>
+          file_pattern: '*.gif *.webm'
       - name: 📦 Semantic Release
         id: release
-        uses: cycjimmy/semantic-release-action@b1b432f13acb7768e0c8efdec416d363a57546f2
+        uses: cycjimmy/semantic-release-action@0a51e81a6baff2acad3ee88f4121c589c73d0f0e
         with:
           extra_plugins: |
             @semantic-release/exec
@@ -41,6 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: anchore/sbom-action/download-syft@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # installs syft
       - name: Run GoReleaser
+        if: steps.release.outputs.new_release_published == 'true' # Run only if a new release was published
         uses: goreleaser/goreleaser-action@90a3faa9d0182683851fbfa97ca1a2cb983bfca3
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
