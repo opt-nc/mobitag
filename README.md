@@ -94,6 +94,15 @@ En indiquant également le numéro de l'expéditeur
 mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD" --from yyyyyy
 ```
 
+# 🗑️ Désinstaller
+
+## 🍺 `brew`
+
+```sh
+brew uninstall opt-nc/homebrew-tap/mobitag
+brew list | grep mobitag
+```
+
 # 🤓 Cool oneliners
 
 Depuis le terminal, les oneliners sont super cools : en une commande concise exécutée en une seule ligne dans un terminal ou un script
