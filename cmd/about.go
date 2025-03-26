@@ -12,11 +12,10 @@ import (
 
 // Variables injectées au build avec ldflags
 var (
-	Commit       = "none"
-	Date         = "unknown"
-	BuiltBy      = "GoReleaser"
-	GoVersion    = runtime.Version()
-	GitTreeState = "unknown"
+	Commit    = "none"
+	Date      = "unknown"
+	BuiltBy   = "GoReleaser"
+	GoVersion = runtime.Version()
 )
 
 // aboutCmd represents the about command
@@ -44,54 +43,104 @@ var aboutCmd = &cobra.Command{
 		}
 		for _, line := range asciiArtLines {
 			paddedLine := line + strings.Repeat(" ", maxLength-len(line))
-			titleColor.Add(color.BgBlue).Println(paddedLine)
+			if _, err := titleColor.Add(color.BgBlue).Println(paddedLine); err != nil {
+				fmt.Printf("Error printing ASCII art line: %v\n", err)
+			}
 		}
 
 		// Affichage du slogan en blanc et italique
-		sloganColor.Println("\"Le plus court chemin entre le terminal et un mobitag.\"")
+		if _, err := sloganColor.Println("\"Le plus court chemin entre le terminal et un mobitag.\""); err != nil {
+			fmt.Printf("Error printing slogan: %v\n", err)
+		}
 
 		// Affichage des métadonnées injectées
 		fmt.Println()
-		sectionColor.Println("--- Build Info ---")
-		labelColor.Printf("%-20s ", "GitVersion:")
-		valueColor.Println(Version)
+		if _, err := sectionColor.Println("--- Build Info ---"); err != nil {
+			fmt.Printf("Error printing build info section: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "Git Commit:")
-		valueColor.Println(Commit)
+		if _, err := labelColor.Printf("%-20s ", "GitVersion:"); err != nil {
+			fmt.Printf("Error printing GitVersion label: %v\n", err)
+		}
+		if _, err := valueColor.Println(Version); err != nil {
+			fmt.Printf("Error printing GitVersion value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "GitTreeState:")
-		valueColor.Println("clean") // Ajuste selon ton besoin
+		if _, err := labelColor.Printf("%-20s ", "Git Commit:"); err != nil {
+			fmt.Printf("Error printing Git Commit label: %v\n", err)
+		}
+		if _, err := valueColor.Println(Commit); err != nil {
+			fmt.Printf("Error printing Git Commit value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "BuildDate:")
-		valueColor.Println(Date)
+		if _, err := labelColor.Printf("%-20s ", "BuildDate:"); err != nil {
+			fmt.Printf("Error printing BuildDate label: %v\n", err)
+		}
+		if _, err := valueColor.Println(Date); err != nil {
+			fmt.Printf("Error printing BuildDate value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "BuiltBy:")
-		valueColor.Println(BuiltBy)
+		if _, err := labelColor.Printf("%-20s ", "BuiltBy:"); err != nil {
+			fmt.Printf("Error printing BuiltBy label: %v\n", err)
+		}
+		if _, err := valueColor.Println(BuiltBy); err != nil {
+			fmt.Printf("Error printing BuiltBy value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "GoVersion:")
-		valueColor.Println(GoVersion)
+		if _, err := labelColor.Printf("%-20s ", "GoVersion:"); err != nil {
+			fmt.Printf("Error printing GoVersion label: %v\n", err)
+		}
+		if _, err := valueColor.Println(GoVersion); err != nil {
+			fmt.Printf("Error printing GoVersion value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "Compiler:")
-		valueColor.Println(runtime.Compiler)
+		if _, err := labelColor.Printf("%-20s ", "Compiler:"); err != nil {
+			fmt.Printf("Error printing Compiler label: %v\n", err)
+		}
+		if _, err := valueColor.Println(runtime.Compiler); err != nil {
+			fmt.Printf("Error printing Compiler value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "Platform:")
-		valueColor.Printf("%s/%s\n", runtime.GOOS, runtime.GOARCH)
+		if _, err := labelColor.Printf("%-20s ", "Platform:"); err != nil {
+			fmt.Printf("Error printing Platform label: %v\n", err)
+		}
+		if _, err := valueColor.Printf("%s/%s\n", runtime.GOOS, runtime.GOARCH); err != nil {
+			fmt.Printf("Error printing Platform value: %v\n", err)
+		}
 
 		// Affichage des ressources
 		fmt.Println()
-		sectionColor.Println("--- Ressources ---")
-		labelColor.Printf("%-20s ", "Licence:")
-		valueColor.Println("AGPLv3")
+		if _, err := sectionColor.Println("--- Ressources ---"); err != nil {
+			fmt.Printf("Error printing resources section: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "Code:")
-		valueColor.Println("https://github.com/opt-nc/mobitag-cli")
+		if _, err := labelColor.Printf("%-20s ", "Licence:"); err != nil {
+			fmt.Printf("Error printing Licence label: %v\n", err)
+		}
+		if _, err := valueColor.Println("AGPLv3"); err != nil {
+			fmt.Printf("Error printing Licence value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "Roadmap:")
-		valueColor.Println("https://github.com/orgs/opt-nc/projects/24")
+		if _, err := labelColor.Printf("%-20s ", "Code:"); err != nil {
+			fmt.Printf("Error printing Code label: %v\n", err)
+		}
+		if _, err := valueColor.Println("https://github.com/opt-nc/mobitag-cli"); err != nil {
+			fmt.Printf("Error printing Code value: %v\n", err)
+		}
 
-		labelColor.Printf("%-20s ", "Site Web:")
-		valueColor.Println("http://www.mobitag.nc")
+		if _, err := labelColor.Printf("%-20s ", "Roadmap:"); err != nil {
+			fmt.Printf("Error printing Roadmap label: %v\n", err)
+		}
+		if _, err := valueColor.Println("https://github.com/orgs/opt-nc/projects/24"); err != nil {
+			fmt.Printf("Error printing Roadmap value: %v\n", err)
+		}
 
+		if _, err := labelColor.Printf("%-20s ", "Site Web:"); err != nil {
+			fmt.Printf("Error printing Site Web label: %v\n", err)
+		}
+		if _, err := valueColor.Println("http://www.mobitag.nc"); err != nil {
+			fmt.Printf("Error printing Site Web value: %v\n", err)
+		}
 	},
 }
 

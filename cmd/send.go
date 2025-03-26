@@ -91,7 +91,11 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	if err != nil {
 		log.Fatalf("❗An error occurred while sending the request: %v\n", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Printf("⚠️  An error occurred while closing the response body: %v\n", err)
+		}
+	}()
 
 	fmt.Printf("ℹ️  Accusé reception: %v\n", resp.Status)
 	fmt.Printf("📜  Code retour: %v\n", resp.StatusCode)

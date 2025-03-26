@@ -9,13 +9,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// sendPipeCmd represents the sendPipe command
-var sendPipeCmd = &cobra.Command{
-	Use:     "sendPipe --to <destinataire>",
+// pipeCmd represents the pipe command
+var pipeCmd = &cobra.Command{
+	Use:     "pipe --to <destinataire>",
 	Aliases: []string{"sp"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag depuis un pipe",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone depuis un pipe.`,
-	Example: `<sortie d'une commande> | mobitag sendPipe --to <destinataire> --from <expéditeur>
+	Example: `<sortie d'une commande> | mobitag pipe --to <destinataire> --from <expéditeur>
 pwd | mobitag sp --to 123456 --from 654321
 echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 123456 -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
@@ -46,15 +46,15 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 }
 
 func init() {
-	rootCmd.AddCommand(sendPipeCmd)
+	rootCmd.AddCommand(pipeCmd)
 
-	sendPipeCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire")
-	sendPipeCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
-	err := sendPipeCmd.MarkFlagRequired("to")
+	pipeCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire")
+	pipeCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
+	err := pipeCmd.MarkFlagRequired("to")
 	if err != nil {
 		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
 	}
 
-	sendPipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
-	sendPipeCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi du message")
+	pipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
+	pipeCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi du message")
 }
