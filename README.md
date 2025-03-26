@@ -109,7 +109,7 @@ brew list | grep mobitag
 Depuis le terminal, les oneliners sont super cools : en une commande concise exécutée en une seule ligne dans un terminal ou un script
 cela permet d’accomplir des tâches rapidement et efficacement, sans avoir à écrire un programme complet.
 
-## Gestion du `pipe` avec la commande `sendPipe`
+## Gestion du `pipe` avec la commande `pipe`
 
 > "Hey I don't have to do anything here except glue together things that somebody else did 
 for me already" - Brian Kernighan ([see short](https://youtube.com/clip/UgkxtOCaReaRRQCOu5Oo5rrOgCwb56JoX7Gw?si=cJ1TTdKZbArizMmt))
@@ -118,7 +118,7 @@ for me already" - Brian Kernighan ([see short](https://youtube.com/clip/UgkxtOCa
 ```sh
 # Exemple avec la commande `whoami`
 echo "Hello c'est $(whoami) : alors on se le fait ce café ?" |\
-    mobitag sendPipe --to $DIDI_MOBILE
+    mobitag pipe --to $DIDI_MOBILE
 ```
 
 ## ㊙️ Envoyer un fichier ou des secrets avec `privatebin`
@@ -141,7 +141,7 @@ Avec [`cowsay`](https://cowsay.diamonds/):
 ```sh
 cowsay -f tux "Mobitag c'est VACHEMENT cool...surtout depuis le terminal et pipé avec privatebin"\
     | privatebin create\
-    | mobitag sendPipe --to $MOBILIS_DEST
+    | mobitag pipe --to $MOBILIS_DEST
 ```
 
 ### 🔐 Communiquer un fichier de secrets
@@ -149,7 +149,7 @@ cowsay -f tux "Mobitag c'est VACHEMENT cool...surtout depuis le terminal et pip�
 ```sh
 cat secrets.txt\
     | privatebin create\
-    | mobitag sendPipe --to $MOBILIS_DEST
+    | mobitag pipe --to $MOBILIS_DEST
 ```
 
 # 🧑‍🤝‍🧑 Equipe
