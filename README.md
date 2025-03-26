@@ -8,7 +8,8 @@
 [![Powered By: GoReleaser](https://img.shields.io/badge/powered%20by-goreleaser-green.svg)](https://github.com/goreleaser)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
-
+[![GoReportCard](https://goreportcard.com/badge/github.com//opt-nc/mobitag)](https://goreportcard.com/report/github.com/opt-nc/mobitag)
+[![GoDoc](https://godoc.org/github.com/opt-nc/mobitag?status.svg)](https://pkg.go.dev/github.com/opt-nc/mobitag)
 
 
 ![Exemple d'utilisation](media/auth/mobitag.gif)
@@ -35,7 +36,7 @@ brew install opt-nc/homebrew-tap/mobitag
 Ou tout simplement avec `go` :
 
 ```sh
-go install github.com/opt-nc/mobitag-cli@latest
+go install github.com/opt-nc/mobitag@latest
 ```
 
 2. Mettre à jour :
