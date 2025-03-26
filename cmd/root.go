@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Short: "Envoyer des sms avec Mobitag",
 	Long:  `CLI permettant d'envoyer des sms gratuits en contactant l'API de Mobitag. Afin de vérifier la configuration, utilisez la commande 'mobitag dryRun'.`,
 	Example: `mobitag send --to <destinataire> --message <message> --from <expéditeur>
-whoami | mobitag sendPipe --to 123456 --from 654321`,
+whoami | mobitag pipe --to 123456 --from 654321`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
