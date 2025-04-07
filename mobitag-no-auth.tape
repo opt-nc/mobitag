@@ -78,5 +78,5 @@ Sleep 1s
 
 Type "# 🔖 Stay connected"
 Enter
-Type "# github.com/opt-nc/mobitag-cli"
+Type "# github.com/opt-nc/mobitag"
 Sleep 3s
