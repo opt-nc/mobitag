@@ -22,7 +22,7 @@ mobitag send --to 123456 --message "Hello, world!"
 mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
-			log.Fatalf("❗ La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+			log.Fatalf("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
 		}
 		return nil
 	},
@@ -47,9 +47,9 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	// Check if message exceeds 160 characters
 	if len(message) > 160 {
 		if !cut {
-			log.Fatalf("❗ Le message dépasse la limite de 160 caractères (%d caractères). Veuillez réduire la taille du message ou utiliser l'option --cut pour le couper automatiquement.\n", len(message))
+			log.Fatalf("Le message dépasse la limite de 160 caractères (%d caractères). Veuillez réduire la taille du message ou utiliser l'option --cut pour le couper automatiquement.\n", len(message))
 		}
-		log.Printf("⚠️  Le message dépasse la limite de 160 caractères (%d caractères). Il sera coupé pour ne pas excéder la limite.\n", len(message))
+		log.Printf("Le message dépasse la limite de 160 caractères (%d caractères). Il sera coupé pour ne pas excéder la limite.\n", len(message))
 		message = message[:155] + "[...]"
 	}
 
@@ -66,12 +66,12 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	// log all parameters
 	if verbose {
 		if senderMobile != "" {
-			fmt.Printf("📞  Expéditeur: %s\n", senderMobile)
+			fmt.Printf("Expéditeur: %s\n", senderMobile)
 		}
-		fmt.Printf("📞  Destinataire: %s\n", receiverMobile)
+		fmt.Printf("Destinataire: %s\n", receiverMobile)
 	}
 
-	fmt.Printf("📜  Message envoyé: %s\n", message)
+	fmt.Printf("Message envoyé: %s\n", message)
 
 	// set request headers
 	req.Header.Set("Content-Type", "application/json")
@@ -89,16 +89,16 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("❗An error occurred while sending the request: %v\n", err)
+		log.Fatalf("An error occurred while sending the request: %v\n", err)
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
-			log.Printf("⚠️  An error occurred while closing the response body: %v\n", err)
+			log.Printf("An error occurred while closing the response body: %v\n", err)
 		}
 	}()
 
-	fmt.Printf("ℹ️  Accusé reception: %v\n", resp.Status)
-	fmt.Printf("📜  Code retour: %v\n", resp.StatusCode)
+	fmt.Printf("Accusé reception: %v\n", resp.Status)
+	fmt.Printf("Code retour: %v\n", resp.StatusCode)
 }
 
 func init() {
