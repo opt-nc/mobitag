@@ -22,7 +22,7 @@ mobitag send --to 123456 --message "Hello, world!"
 mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
-			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement. Veuillez définir cette clé ou utiliser la commande 'mobitag web' en attendant d'avoir une clé.")
 			os.Exit(1)
 		}
 		return nil
@@ -62,7 +62,7 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", apiURL, nil)
 	if err != nil {
-		slog.Error("An error occurred while creating the request error=" + err.Error())
+		slog.Error("Une erreur s'est produite lors de la création de la requête erreur=" + err.Error())
 	}
 
 	// log all parameters
@@ -94,16 +94,20 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 
 	resp, err := client.Do(req)
 	if err != nil {
-		slog.Error("An error occurred while sending the request error=" + err.Error())
+		slog.Error("Une erreur s'est produite lors de l'envoi de la requête erreur=" + err.Error())
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
-			slog.Warn("An error occurred while closing the response body error=" + err.Error())
+			slog.Warn("Une erreur s'est produite lors de la fermeture du corps de la réponse erreur=" + err.Error())
 		}
 	}()
 
+	if resp.StatusCode == 443 {
+		slog.Error("La clé API est invalide. Veuillez demander une nouvelle clé ou utiliser la commande 'mobitag web' en attendant.")
+		os.Exit(1)
+	}
+
 	slog.Info("Accusé réception=" + resp.Status)
-	slog.Info("Code retour=" + fmt.Sprint(resp.StatusCode))
 }
 
 func init() {

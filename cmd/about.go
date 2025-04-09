@@ -124,7 +124,7 @@ var aboutCmd = &cobra.Command{
 		if _, err := labelColor.Printf("%-20s ", "Code:"); err != nil {
 			fmt.Printf("Error printing Code label: %v\n", err)
 		}
-		if _, err := valueColor.Println("https://github.com/opt-nc/mobitag-cli"); err != nil {
+		if _, err := valueColor.Println("https://github.com/opt-nc/mobitag"); err != nil {
 			fmt.Printf("Error printing Code value: %v\n", err)
 		}
 
