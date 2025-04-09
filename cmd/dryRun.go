@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
+
+	"log/slog"
 
 	"github.com/spf13/cobra"
 )
@@ -17,9 +18,9 @@ var dryRunCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var mobitagAPIKey = os.Getenv("OPTNC_MOBITAGNC_API_KEY")
 		if mobitagAPIKey != "" {
-			fmt.Println("✅  Dry run test passed: OPTNC_MOBITAGNC_API_KEY environment variable is set")
+			slog.Info("Dry run test passed: OPTNC_MOBITAGNC_API_KEY environment variable is set")
 		} else {
-			fmt.Println("❌  Dry run test failed: OPTNC_MOBITAGNC_API_KEY environment variable is not set")
+			slog.Error("Dry run test failed: OPTNC_MOBITAGNC_API_KEY environment variable is not set")
 		}
 	},
 }

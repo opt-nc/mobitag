@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io"
 	"log"
+	"log/slog"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,7 +21,8 @@ pwd | mobitag sp --to 123456 --from 654321
 echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 123456 -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
-			log.Fatalf("❗ La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+			os.Exit(1)
 		}
 		return nil
 	},
@@ -35,7 +37,7 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 			input, _ := io.ReadAll(reader)
 			message = string(input)
 		} else {
-			log.Fatalf("❗ Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
+			log.Fatalf("Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
 		}
 
 		cut, _ := cmd.Flags().GetBool("cut")
@@ -52,7 +54,8 @@ func init() {
 	pipeCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
 	err := pipeCmd.MarkFlagRequired("to")
 	if err != nil {
-		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
+		slog.Error("Erreur lors du marquage du flag 'to' comme requis error=" + err.Error())
+		os.Exit(1)
 	}
 
 	pipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")

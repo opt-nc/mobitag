@@ -3,15 +3,15 @@ package cmd
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"strings"
 
+	"log/slog"
+
 	"github.com/spf13/cobra"
 )
 
-// sendCmd represents the send command
 var sendCmd = &cobra.Command{
 	Use:     "send",
 	Aliases: []string{"s"}, // L'alias pour la commande
@@ -22,7 +22,8 @@ mobitag send --to 123456 --message "Hello, world!"
 mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
-			log.Fatalf("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement.")
+			os.Exit(1)
 		}
 		return nil
 	},
@@ -47,9 +48,10 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	// Check if message exceeds 160 characters
 	if len(message) > 160 {
 		if !cut {
-			log.Fatalf("Le message dépasse la limite de 160 caractères (%d caractères). Veuillez réduire la taille du message ou utiliser l'option --cut pour le couper automatiquement.\n", len(message))
+			slog.Error("Le message dépasse la limite de 160 caractères length=" + fmt.Sprint(len(message)))
+			os.Exit(1) // Exit the program
 		}
-		log.Printf("Le message dépasse la limite de 160 caractères (%d caractères). Il sera coupé pour ne pas excéder la limite.\n", len(message))
+		slog.Warn("Le message dépasse la limite de 160 caractères et sera coupé length=" + fmt.Sprint(len(message)))
 		message = message[:155] + "[...]"
 	}
 
@@ -60,45 +62,48 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", apiURL, nil)
 	if err != nil {
-		log.Fatalf("An error occurred while creating the request: %v\n", err)
+		slog.Error("An error occurred while creating the request error=" + err.Error())
 	}
 
 	// log all parameters
 	if verbose {
 		if senderMobile != "" {
-			fmt.Printf("Expéditeur: %s\n", senderMobile)
+			slog.Info("Expéditeur=" + senderMobile)
 		}
-		fmt.Printf("Destinataire: %s\n", receiverMobile)
+		slog.Info("Destinataire=" + receiverMobile)
 	}
 
-	fmt.Printf("Message envoyé: %s\n", message)
+	slog.Info("Message envoyé=" + message)
 
 	// set request headers
 	req.Header.Set("Content-Type", "application/json")
-	// Authenticate the request
 	req.Header.Set("x-apikey", mobitagAPIKey)
 
 	// set request payload with receiver mobile number, message, and optionally sender mobile number
-	var reqBody string
+	var reqBody strings.Builder
+	reqBody.WriteString(`{"to":"`)
+	reqBody.WriteString(receiverMobile)
+	reqBody.WriteString(`","message":"`)
+	reqBody.WriteString(message)
 	if senderMobile != "" {
-		reqBody = fmt.Sprintf(`{"to":"%s","message":"%s","from":"%s"}`, receiverMobile, message, senderMobile)
-	} else {
-		reqBody = fmt.Sprintf(`{"to":"%s","message":"%s"}`, receiverMobile, message)
+		reqBody.WriteString(`","from":"`)
+		reqBody.WriteString(senderMobile)
 	}
-	req.Body = io.NopCloser(strings.NewReader(reqBody))
+	reqBody.WriteString(`"}`)
+	req.Body = io.NopCloser(strings.NewReader(reqBody.String()))
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("An error occurred while sending the request: %v\n", err)
+		slog.Error("An error occurred while sending the request error=" + err.Error())
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
-			log.Printf("An error occurred while closing the response body: %v\n", err)
+			slog.Warn("An error occurred while closing the response body error=" + err.Error())
 		}
 	}()
 
-	fmt.Printf("Accusé reception: %v\n", resp.Status)
-	fmt.Printf("Code retour: %v\n", resp.StatusCode)
+	slog.Info("Accusé réception=" + resp.Status)
+	slog.Info("Code retour=" + fmt.Sprint(resp.StatusCode))
 }
 
 func init() {
@@ -109,12 +114,14 @@ func init() {
 	sendCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
 	err := sendCmd.MarkFlagRequired("to")
 	if err != nil {
-		log.Fatalf("Erreur lors du marquage du flag 'to' comme requis : %v", err)
+		slog.Error("Erreur lors du marquage du flag 'to' comme requis error=" + err.Error())
+		os.Exit(1)
 	}
 
 	err = sendCmd.MarkFlagRequired("message")
 	if err != nil {
-		log.Fatalf("Erreur lors du marquage du flag 'message' comme requis : %v", err)
+		slog.Error("Erreur lors du marquage du flag 'message' comme requis error=" + err.Error())
+		os.Exit(1)
 	}
 
 	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
