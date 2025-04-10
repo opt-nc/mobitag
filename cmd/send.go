@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/base64"
 	"fmt"
 	"io"
 	"net/http"
@@ -55,6 +56,14 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 		message = message[:155] + "[...]"
 	}
 
+	// Encode the message in Base64
+	encodedMessage := base64.StdEncoding.EncodeToString([]byte(message))
+
+	// log the encoded message if verbose
+	if verbose {
+		slog.Info("Message encodé en Base64=" + encodedMessage)
+	}
+
 	// Get the Mobitag API key from the environment
 	mobitagAPIKey := os.Getenv("OPTNC_MOBITAGNC_API_KEY")
 	apiURL := "https://api.opt.nc/mobitag/sendSms"
@@ -84,7 +93,7 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	reqBody.WriteString(`{"to":"`)
 	reqBody.WriteString(receiverMobile)
 	reqBody.WriteString(`","message":"`)
-	reqBody.WriteString(message)
+	reqBody.WriteString(encodedMessage)
 	if senderMobile != "" {
 		reqBody.WriteString(`","from":"`)
 		reqBody.WriteString(senderMobile)
