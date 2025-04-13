@@ -10,6 +10,7 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![GoReportCard](https://goreportcard.com/badge/github.com//opt-nc/mobitag)](https://goreportcard.com/report/github.com/opt-nc/mobitag)
 [![GoDoc](https://godoc.org/github.com/opt-nc/mobitag?status.svg)](https://pkg.go.dev/github.com/opt-nc/mobitag)
+[![lint-workflow](https://github.com/opt-nc/mobitag/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/opt-nc/mobitag/actions/workflows/golangci-lint.yml)
 
 
 ![Exemple d'utilisation](media/auth/mobitag.gif)
