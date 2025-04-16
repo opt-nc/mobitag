@@ -153,6 +153,40 @@ cat secrets.txt\
     | mobitag pipe --to $MOBILIS_DEST
 ```
 
+## 📤 Envoi de `sms` en masse avec `awk`
+
+### A propos de `awk`
+
+Comment développer un `cli` sans proposer une intégration avec le légendaire `awk` ?
+Voyons donc comment envoyer des sms en masse en combinant `mobitag` et `awk` 🚀
+
+🎤 D'abord, bien comprendre la phitlosophie de `awk` : [7' interview of Brian Kernighan for the legacy.](https://www.youtube.com/watch?v=W5kr7X7EG4o)
+
+### Envoyer un `csv`
+
+Supposons que l'on ait le `csv` suivant (par exemple en sortie d'un traitement précédent) : 
+
+```
+dest,msg,from
+NUMERO_1,"NERD ALERT : Demo automatisation csv avec awk - exemple 1",""
+NUMERO_2,"NERD ALERT : Demo automatisation csv avec awk - exemple 2",""
+```
+Alors on peut générer un "dry run" (ie. génération de commandes sans les éxécuter) : 
+
+```sh
+# Génération des commandes : 
+awk -F',' 'NR > 1 && $1 != "" {print "mobitag send --to " $1 " --message " $2 " --from " $3 }' mobitags.csv
+```
+
+Puis exécuter :
+
+
+```
+awk -F',' 'NR > 1 && $1 != "" {print "mobitag send --to " $1 " --message " $2 " --from " $3 }' mobitags.csv |\
+    bash
+```
+
+
 # 🧑‍🤝‍🧑 Equipe
 
 Ce projet d'innovation frugale n'aurait pas vu le jour sans une équipe, par ordre d'entré sur le projet :
