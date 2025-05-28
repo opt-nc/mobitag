@@ -1,12 +1,7 @@
 package cmd
 
 import (
-	"encoding/base64"
-	"fmt"
-	"io"
-	"net/http"
 	"os"
-	"strings"
 
 	"log/slog"
 
@@ -42,99 +37,14 @@ mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 
 		return nil
 	},
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		to, _ := cmd.Flags().GetString("to")
 		message, _ := cmd.Flags().GetString("message")
 		from, _ := cmd.Flags().GetString("from")
 		cut, _ := cmd.Flags().GetBool("cut")
-		//verbose, _ := cmd.Flags().GetBool("verbose")
 
-		SendSMS(to, message, from, cut)
+		return SendSMS(to, message, from, cut)
 	},
-}
-
-// sendSMS sends an SMS to the specified receiver mobile number
-// receiverMobile: the mobile number of the receiver, like 654321
-// message: the message to send
-func SendSMS(receiverMobile string, message string, senderMobile string, cut bool) {
-	// Replace all newline characters with spaces
-	message = strings.ReplaceAll(message, "\n", " ")
-
-	// Check if message exceeds 160 characters
-	if len(message) > 160 {
-		if !cut {
-			slog.Error("Le message dépasse la limite de 160 caractères length=" + fmt.Sprint(len(message)))
-			os.Exit(1) // Exit the program
-		}
-		slog.Warn("Le message dépasse la limite de 160 caractères et sera coupé length=" + fmt.Sprint(len(message)))
-		message = message[:155] + "[...]"
-	}
-
-	// Encode the message in Base64
-	encodedMessage := base64.StdEncoding.EncodeToString([]byte(message))
-
-	// log the encoded message if verbose
-	slog.Debug("Message encodé en Base64=" + encodedMessage)
-
-	// Get the Mobitag API key from the environment
-	mobitagAPIKey := os.Getenv("OPTNC_MOBITAGNC_API_KEY")
-	apiURL := "https://api.opt.nc/mobitag/sendSms"
-
-	client := &http.Client{}
-	req, err := http.NewRequest("POST", apiURL, nil)
-	if err != nil {
-		slog.Error("Une erreur s'est produite lors de la création de la requête erreur=" + err.Error())
-	}
-
-	// log all parameters
-	if senderMobile != "" {
-		slog.Debug("Expéditeur=" + senderMobile)
-	}
-	slog.Debug("Destinataire=" + receiverMobile)
-
-	slog.Info("Message envoyé=" + message)
-
-	// set request headers
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("x-apikey", mobitagAPIKey)
-
-	// set request payload with receiver mobile number, message, and optionally sender mobile number
-	var reqBody strings.Builder
-	reqBody.WriteString(`{"to":"`)
-	reqBody.WriteString(receiverMobile)
-	reqBody.WriteString(`","message":"`)
-	reqBody.WriteString(encodedMessage)
-	if senderMobile != "" {
-		reqBody.WriteString(`","from":"`)
-		reqBody.WriteString(senderMobile)
-	}
-	reqBody.WriteString(`"}`)
-	req.Body = io.NopCloser(strings.NewReader(reqBody.String()))
-
-	resp, err := client.Do(req)
-	if err != nil {
-		slog.Error("Une erreur s'est produite lors de l'envoi de la requête erreur=" + err.Error())
-	}
-	defer func() {
-		if err := resp.Body.Close(); err != nil {
-			slog.Warn("Une erreur s'est produite lors de la fermeture du corps de la réponse erreur=" + err.Error())
-		}
-	}()
-
-	if resp.StatusCode == 443 {
-		slog.Error("La clé API est invalide. Veuillez demander une nouvelle clé ou utiliser la commande 'mobitag web' en attendant.")
-	} else if resp.StatusCode == 202 {
-		slog.Info("Accusé réception=" + resp.Status)
-	} else if resp.StatusCode == 401 {
-		slog.Error("Accès non autorisé. Veuillez vérifier votre clé API.")
-		os.Exit(1) // Exit the program if the request fails
-	} else if resp.StatusCode == 400 {
-		slog.Error("Requête invalide. Veuillez vérifier les paramètres envoyés.")
-		os.Exit(1) // Exit the program if the request fails
-	} else if resp.StatusCode != 202 {
-		slog.Error("Une erreur s'est produite lors de l'envoi du message. Code d'erreur=" + fmt.Sprint(resp.StatusCode) + " message=" + resp.Status)
-		os.Exit(1) // Exit the program if the request fails
-	}
 }
 
 func init() {
@@ -157,5 +67,4 @@ func init() {
 
 	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
 	sendCmd.Flags().StringP("verbose", "v", "info", "Niveau de journalisation (warn, info, debug)")
-
 }
