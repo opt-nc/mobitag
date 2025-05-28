@@ -26,6 +26,20 @@ mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement. Veuillez définir cette clé ou utiliser la commande 'mobitag web' en attendant d'avoir une clé.")
 			os.Exit(1)
 		}
+
+		// Configuration du niveau de journalisation en fonction du flag verbose
+		verboseLevel, _ := cmd.Flags().GetString("verbose")
+		switch verboseLevel {
+		case "warn":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn})))
+		case "info":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})))
+		case "debug":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})))
+		default:
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelError})))
+		}
+
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
@@ -33,16 +47,16 @@ mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 		message, _ := cmd.Flags().GetString("message")
 		from, _ := cmd.Flags().GetString("from")
 		cut, _ := cmd.Flags().GetBool("cut")
-		verbose, _ := cmd.Flags().GetBool("verbose")
+		//verbose, _ := cmd.Flags().GetBool("verbose")
 
-		SendSMS(to, message, from, cut, verbose)
+		SendSMS(to, message, from, cut)
 	},
 }
 
 // sendSMS sends an SMS to the specified receiver mobile number
 // receiverMobile: the mobile number of the receiver, like 654321
 // message: the message to send
-func SendSMS(receiverMobile string, message string, senderMobile string, cut bool, verbose bool) {
+func SendSMS(receiverMobile string, message string, senderMobile string, cut bool) {
 	// Replace all newline characters with spaces
 	message = strings.ReplaceAll(message, "\n", " ")
 
@@ -60,9 +74,7 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	encodedMessage := base64.StdEncoding.EncodeToString([]byte(message))
 
 	// log the encoded message if verbose
-	if verbose {
-		slog.Info("Message encodé en Base64=" + encodedMessage)
-	}
+	slog.Debug("Message encodé en Base64=" + encodedMessage)
 
 	// Get the Mobitag API key from the environment
 	mobitagAPIKey := os.Getenv("OPTNC_MOBITAGNC_API_KEY")
@@ -75,12 +87,10 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 	}
 
 	// log all parameters
-	if verbose {
-		if senderMobile != "" {
-			slog.Info("Expéditeur=" + senderMobile)
-		}
-		slog.Info("Destinataire=" + receiverMobile)
+	if senderMobile != "" {
+		slog.Debug("Expéditeur=" + senderMobile)
 	}
+	slog.Debug("Destinataire=" + receiverMobile)
 
 	slog.Info("Message envoyé=" + message)
 
@@ -113,10 +123,18 @@ func SendSMS(receiverMobile string, message string, senderMobile string, cut boo
 
 	if resp.StatusCode == 443 {
 		slog.Error("La clé API est invalide. Veuillez demander une nouvelle clé ou utiliser la commande 'mobitag web' en attendant.")
-		os.Exit(1)
+	} else if resp.StatusCode == 202 {
+		slog.Info("Accusé réception=" + resp.Status)
+	} else if resp.StatusCode == 401 {
+		slog.Error("Accès non autorisé. Veuillez vérifier votre clé API.")
+		os.Exit(1) // Exit the program if the request fails
+	} else if resp.StatusCode == 400 {
+		slog.Error("Requête invalide. Veuillez vérifier les paramètres envoyés.")
+		os.Exit(1) // Exit the program if the request fails
+	} else if resp.StatusCode != 202 {
+		slog.Error("Une erreur s'est produite lors de l'envoi du message. Code d'erreur=" + fmt.Sprint(resp.StatusCode) + " message=" + resp.Status)
+		os.Exit(1) // Exit the program if the request fails
 	}
-
-	slog.Info("Accusé réception=" + resp.Status)
 }
 
 func init() {
@@ -138,6 +156,6 @@ func init() {
 	}
 
 	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
-	sendCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi")
+	sendCmd.Flags().StringP("verbose", "v", "info", "Niveau de journalisation (warn, info, debug)")
 
 }

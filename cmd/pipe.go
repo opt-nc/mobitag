@@ -3,7 +3,6 @@ package cmd
 import (
 	"bufio"
 	"io"
-	"log"
 	"log/slog"
 	"os"
 
@@ -37,13 +36,26 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 			input, _ := io.ReadAll(reader)
 			message = string(input)
 		} else {
-			log.Fatalf("Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
+			slog.Error("Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
+			os.Exit(1)
 		}
 
 		cut, _ := cmd.Flags().GetBool("cut")
-		verbose, _ := cmd.Flags().GetBool("verbose")
+		verbose, _ := cmd.Flags().GetString("verbose")
 
-		SendSMS(to, message, from, cut, verbose)
+		// Configuration du niveau de journalisation en fonction du flag verbose
+		switch verbose {
+		case "warn":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn})))
+		case "info":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})))
+		case "debug":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})))
+		default:
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelError})))
+		}
+
+		SendSMS(to, message, from, cut)
 	},
 }
 
@@ -59,5 +71,5 @@ func init() {
 	}
 
 	pipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
-	pipeCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi du message")
+	pipeCmd.Flags().StringP("verbose", "v", "info", "Niveau de journalisation (warn, info, debug)")
 }
