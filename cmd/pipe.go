@@ -12,7 +12,7 @@ import (
 // pipeCmd represents the pipe command
 var pipeCmd = &cobra.Command{
 	Use:     "pipe --to <destinataire>",
-	Aliases: []string{"sp"}, // L'alias pour la commande
+	Aliases: []string{"p"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag depuis un pipe",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone depuis un pipe.`,
 	Example: `<sortie d'une commande> | mobitag pipe --to <destinataire> --from <expéditeur>
@@ -25,7 +25,7 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 		}
 		return nil
 	},
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		to, _ := cmd.Flags().GetString("to")
 		from, _ := cmd.Flags().GetString("from")
 
@@ -55,7 +55,7 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelError})))
 		}
 
-		SendSMS(to, message, from, cut)
+		return SendSMS(to, message, from, cut)
 	},
 }
 
