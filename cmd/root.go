@@ -1,8 +1,11 @@
 package cmd
 
 import (
+	"context"
+	"fmt"
 	"os"
 
+	"github.com/charmbracelet/fang"
 	"github.com/spf13/cobra"
 )
 
@@ -21,10 +24,17 @@ whoami | mobitag pipe --to 123456 --from 654321`,
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
+	rootCmd.PersistentFlags().BoolP("help", "h", false, "Help for this command")
+	if err := rootCmd.PersistentFlags().MarkHidden("help"); err != nil {
+		// Option 1: log or handle gracefully
+		fmt.Fprintf(os.Stderr, "failed to hide help flag: %v\n", err)
 		os.Exit(1)
 	}
+
+	if err := fang.Execute(context.Background(), rootCmd, fang.WithoutVersion()); err != nil {
+		os.Exit(1)
+	}
+
 }
 
 func init() {
