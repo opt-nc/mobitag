@@ -20,6 +20,7 @@ jobs:
       - name: 🚀 Setup Go
         uses: actions/setup-go@v5.5.0
       - name: 🧪 Generate the gif with vhs
+        if: github.actor != 'dependabot[bot]'
         env:
           OPTNC_MOBITAGNC_API_KEY: ${{ secrets.OPTNC_MOBITAGNC_API_KEY }}
           MOBILIS_NUMBER: ${{ secrets.MOBILIS_NUMBER }}
@@ -29,6 +30,7 @@ jobs:
           go install github.com/charmbracelet/vhs@latest
           vhs mobitag-auth.tape
       - uses: stefanzweifel/git-auto-commit-action@v6
+        if: github.actor != 'dependabot[bot]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
