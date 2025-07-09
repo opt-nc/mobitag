@@ -3,7 +3,6 @@ package cmd
 import (
 	"bufio"
 	"io"
-	"log"
 	"log/slog"
 	"os"
 
@@ -13,7 +12,7 @@ import (
 // pipeCmd represents the pipe command
 var pipeCmd = &cobra.Command{
 	Use:     "pipe --to <destinataire>",
-	Aliases: []string{"sp"}, // L'alias pour la commande
+	Aliases: []string{"p"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag depuis un pipe",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone depuis un pipe.`,
 	Example: `<sortie d'une commande> | mobitag pipe --to <destinataire> --from <expéditeur>
@@ -26,7 +25,7 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 		}
 		return nil
 	},
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		to, _ := cmd.Flags().GetString("to")
 		from, _ := cmd.Flags().GetString("from")
 
@@ -37,13 +36,26 @@ echo "Hello c'est $(whoami) : alors on se le fait ce café ?" | mobitag sp -t 12
 			input, _ := io.ReadAll(reader)
 			message = string(input)
 		} else {
-			log.Fatalf("Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
+			slog.Error("Aucune entrée n'a été trouvée. Veuillez utiliser un pipe pour envoyer un message.")
+			os.Exit(1)
 		}
 
 		cut, _ := cmd.Flags().GetBool("cut")
-		verbose, _ := cmd.Flags().GetBool("verbose")
+		verbose, _ := cmd.Flags().GetString("verbose")
 
-		SendSMS(to, message, from, cut, verbose)
+		// Configuration du niveau de journalisation en fonction du flag verbose
+		switch verbose {
+		case "warn":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn})))
+		case "info":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})))
+		case "debug":
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})))
+		default:
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelError})))
+		}
+
+		return SendSMS(to, message, from, cut)
 	},
 }
 
@@ -59,5 +71,5 @@ func init() {
 	}
 
 	pipeCmd.Flags().BoolP("cut", "c", false, "Couper le message si sa taille dépasse 160 caractères afin de ne pas excéder la limite")
-	pipeCmd.Flags().BoolP("verbose", "v", false, "Afficher les détails de l'envoi du message")
+	pipeCmd.Flags().StringP("verbose", "v", "info", "Niveau de journalisation (warn, info, debug)")
 }
