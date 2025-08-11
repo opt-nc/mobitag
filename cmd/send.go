@@ -14,8 +14,8 @@ var sendCmd = &cobra.Command{
 	Short:   "Envoyer un Mobitag",
 	Long:    `Envoi d'un Mobitag à un numéro de téléphone.`,
 	Example: `mobitag send --to <destinataire> --message <message> --from <expéditeur>
-mobitag send --to 123456 --message "Hello, world!"
-mobitag send -t 123456 -m "Hello, world!" -f 654321`,
+mobitag send --to 123456 --message "Hello, world!" --from 654321
+mobitag s -t 123456 -m "Hello, world!" -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
 			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement. Veuillez définir cette clé ou utiliser la commande 'mobitag web' en attendant d'avoir une clé.")
@@ -50,8 +50,8 @@ mobitag send -t 123456 -m "Hello, world!" -f 654321`,
 func init() {
 	rootCmd.AddCommand(sendCmd)
 
-	sendCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire")
-	sendCmd.Flags().StringP("message", "m", "", "Message à envoyer")
+	sendCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire (obligatoire)")
+	sendCmd.Flags().StringP("message", "m", "", "Message à envoyer (obligatoire)")
 	sendCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
 	err := sendCmd.MarkFlagRequired("to")
 	if err != nil {
