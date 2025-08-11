@@ -78,22 +78,10 @@ Afficher l'aide :
 mobitag
 ```
 
-Tester l'environnement afin de vérifier la présence de la clé API : 
-
-```sh
-mobitag dryRun
-```
-
 Envoyer un `mobit@g` : 
 
 ```sh
-mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD"
-```
-
-En indiquant également le numéro de l'expéditeur
-
-```sh
-mobitag send --to xxxxxx --message "Hello World : a mobit@g from Go(lang) XD" --from yyyyyy
+mobitag help send
 ```
 
 # 🗑️ Désinstaller

@@ -62,7 +62,7 @@ Sleep 2000ms
 
 Type "# 🧪 Test environment"
 Enter
-Type "mobitag dryRun"
+Type "mobitag check-apikey"
 Enter
 Sleep 2000ms
 
