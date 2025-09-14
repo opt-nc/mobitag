@@ -141,6 +141,24 @@ cat secrets.txt\
     | mobitag pipe --to $MOBILIS_DEST
 ```
 
+### 🔥 Créer et envoyer un mot de passe
+
+1. **Créer un mode passe** de 15 caractères avec [`pwgen`](https://formulae.brew.sh/formula/pwgen)
+2. **Créer une url valide pour 5 minutes et qui s'autodétruit** à la première lecture avec l'option `burn-after-reading` de [`privatebin`](https://github.com/gearnode/privatebin)
+3. **Envoyer** l'url par sms
+
+```bash
+# brew install pwgen
+pwgen -s 15 1 | \
+    # github.com/gearnode/privatebin
+    tee >(xargs -I{} echo "✅ Mot de passe généré: {}" >&2) | \
+    privatebin create --burn-after-reading --expire 5m | \
+    # brew install opt-nc/homebrew-tap/mobitag
+    # Send a sms without logging the privatebin url
+    mobitag pipe -v warn --to "$MOBILIS_ADRIEN"
+```
+
+
 ## 📤 Envoi de `sms` en masse avec `awk`
 
 ### A propos de `awk`
