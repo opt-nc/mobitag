@@ -143,6 +143,8 @@ cat secrets.txt\
 
 ### 🔥 Créer et envoyer un mot de passe
 
+Une [démo video complète](https://youtu.be/z6Y9LiBQ-yU) est disponible, voici les étapes:
+
 1. **Créer un mode passe** de 15 caractères avec [`pwgen`](https://formulae.brew.sh/formula/pwgen)
 2. **Créer une url valide pour 5 minutes et qui s'autodétruit** à la première lecture avec l'option `burn-after-reading` de [`privatebin`](https://github.com/gearnode/privatebin)
 3. **Envoyer** l'url par sms
