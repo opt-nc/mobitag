@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.5
 
 require (
-	github.com/charmbracelet/fang v0.4.0
+	github.com/charmbracelet/fang v0.4.1
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/fatih/color v1.18.0
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c

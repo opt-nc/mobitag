@@ -2,8 +2,8 @@ github.com/aymanbagabas/go-udiff v0.2.0 h1:TK0fH4MteXUDspT88n8CKzvK0X9O2xu9yQjWp
 github.com/aymanbagabas/go-udiff v0.2.0/go.mod h1:RE4Ex0qsGkTAJoQdQQCA0uG+nAzJO/pI/QwceO5fgrA=
 github.com/charmbracelet/colorprofile v0.3.1 h1:k8dTHMd7fgw4bnFd7jXTLZrSU/CQrKnL3m+AxCzDz40=
 github.com/charmbracelet/colorprofile v0.3.1/go.mod h1:/GkGusxNs8VB/RSOh3fu0TJmQ4ICMMPApIIVn0KszZ0=
-github.com/charmbracelet/fang v0.4.0 h1:boBxmdcFghTeotqkD2itXi7SMBozdIlcslRqjboSJDg=
-github.com/charmbracelet/fang v0.4.0/go.mod h1:9gCUAHmVx5BwSafeyNr3GI0GgvlB1WYjL21SkPp1jyU=
+github.com/charmbracelet/fang v0.4.1 h1:NC0Y4oqg7YuZcBg/KKsHy8DSow0ZDjF4UJL7LwtA0dE=
+github.com/charmbracelet/fang v0.4.1/go.mod h1:9gCUAHmVx5BwSafeyNr3GI0GgvlB1WYjL21SkPp1jyU=
 github.com/charmbracelet/lipgloss/v2 v2.0.0-beta.3 h1:W6DpZX6zSkZr0iFq6JVh1vItLoxfYtNlaxOJtWp8Kis=
 github.com/charmbracelet/lipgloss/v2 v2.0.0-beta.3/go.mod h1:65HTtKURcv/ict9ZQhr6zT84JqIjMcJbyrZYHHKNfKA=
 github.com/charmbracelet/x/ansi v0.8.0 h1:9GTq3xq9caJW8ZrBTe0LIe2fvfLR/bYXKTx2llXn7xE=
