@@ -1,8 +1,6 @@
 module github.com/opt-nc/mobitag
 
-go 1.24.2
-
-toolchain go1.24.5
+go 1.25.1
 
 require (
 	github.com/charmbracelet/fang v0.4.2
