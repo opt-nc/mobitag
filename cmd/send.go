@@ -12,19 +12,19 @@ var sendCmd = &cobra.Command{
 	Use:     "send",
 	Aliases: []string{"s"}, // L'alias pour la commande
 	Short:   "Envoyer un Mobitag",
-	Long:    `Envoi d'un Mobitag à un numéro de téléphone.`,
-	Example: `mobitag send --to <destinataire> --message <message> --from <expéditeur>
-mobitag send --to 123456 --message "Hello, world!" --from 654321
-mobitag s -t 123456 -m "Hello, world!" -f 654321`,
+	Long:    `Envoi d'un Mobitag de moins de 160 caractères à un numéro de téléphone.`,
+	Example://`mobitag send --to <destinataire> --message <message> --from <expéditeur>
+	// mobitag send --to 123456 --message "Hello, world!" --from 654321
+	`mobitag s -t 123456 -m "Hello, world!" -f 654321`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		if os.Getenv("OPTNC_MOBITAGNC_API_KEY") == "" {
 			slog.Error("La clé API 'OPTNC_MOBITAGNC_API_KEY' n'est pas définie dans les variables d'environnement. Veuillez définir cette clé ou utiliser la commande 'mobitag web' en attendant d'avoir une clé.")
 			os.Exit(1)
 		}
 
-		// Configuration du niveau de journalisation en fonction du flag verbose
-		verboseLevel, _ := cmd.Flags().GetString("verbose")
-		switch verboseLevel {
+		// Configuration du niveau de journalisation en fonction du flag log-level
+		logLevel, _ := cmd.Flags().GetString("log-level")
+		switch logLevel {
 		case "warn":
 			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn})))
 		case "info":
@@ -51,8 +51,8 @@ func init() {
 	rootCmd.AddCommand(sendCmd)
 
 	sendCmd.Flags().StringP("to", "t", "", "Numéro de téléphone du destinataire (obligatoire)")
-	sendCmd.Flags().StringP("message", "m", "", "Message à envoyer (obligatoire)")
-	sendCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
+	sendCmd.Flags().StringP("message", "m", "", "Message à envoyer (obligatoire, max 160 caractères)")
+	// sendCmd.Flags().StringP("from", "f", "", "Numéro de téléphone de l'expéditeur")
 	err := sendCmd.MarkFlagRequired("to")
 	if err != nil {
 		slog.Error("Erreur lors du marquage du flag 'to' comme requis error=" + err.Error())
@@ -66,5 +66,5 @@ func init() {
 	}
 
 	sendCmd.Flags().BoolP("cut", "c", false, "Couper le message à 160 caractères afin de ne pas excéder la limite")
-	sendCmd.Flags().StringP("verbose", "v", "info", "Niveau de journalisation (warn, info, debug)")
+	sendCmd.Flags().StringP("log-level", "l", "info", "Niveau de journalisation (warn, info, debug)")
 }
