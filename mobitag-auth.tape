@@ -47,13 +47,13 @@ Sleep 2000ms
 
 Type "# 📲 Send sms"
 Enter
-Type `mobitag send --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER} --message "The CI successfully sent a mobitag"`
+Type `mobitag send --to ${MOBILIS_NUMBER} --message "The CI successfully sent a mobitag"`
 Enter
 Sleep 5s
 
 Type "# 📲 Send sms with a pipe"
 Enter
-Type `echo "The CI successfully piped a mobitag" | mobitag pipe --to ${MOBILIS_NUMBER} --from ${MOBILIS_NUMBER}`
+Type `echo "The CI successfully piped a mobitag" | mobitag pipe --to ${MOBILIS_NUMBER}
 Enter
 Sleep 5s
 
