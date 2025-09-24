@@ -157,7 +157,7 @@ pwgen -s 15 1 | \
     privatebin create --burn-after-reading --expire 5m | \
     # brew install opt-nc/homebrew-tap/mobitag
     # Send a sms without logging the privatebin url
-    mobitag pipe -v warn --to "$MOBILIS_ADRIEN"
+    mobitag pipe -l warn --to "$MOBILIS_ADRIEN"
 ```
 
 
@@ -175,22 +175,22 @@ Voyons donc comment envoyer des sms en masse en combinant `mobitag` et `awk` �
 Supposons que l'on ait le `csv` suivant (par exemple en sortie d'un traitement précédent) : 
 
 ```
-dest,msg,from
-NUMERO_1,"NERD ALERT : Demo automatisation csv avec awk - exemple 1",""
-NUMERO_2,"NERD ALERT : Demo automatisation csv avec awk - exemple 2",""
+dest,msg
+NUMERO_1,"NERD ALERT : Demo automatisation csv avec awk - exemple 1"
+NUMERO_2,"NERD ALERT : Demo automatisation csv avec awk - exemple 2"
 ```
 Alors on peut générer un "dry run" (ie. génération de commandes sans les éxécuter) : 
 
 ```sh
 # Génération des commandes : 
-awk -F',' 'NR > 1 && $1 != "" {print "mobitag send --to " $1 " --message " $2 " --from " $3 }' mobitags.csv
+awk -F',' 'NR > 1 && $1 != "" {print "mobitag send --to " $1 " --message " $2 }' mobitags.csv
 ```
 
 Puis exécuter :
 
 
 ```
-awk -F',' 'NR > 1 && $1 != "" {print "mobitag send --to " $1 " --message " $2 " --from " $3 }' mobitags.csv |\
+awk -F',' 'NR > 1 && $1 != "" {print "mobitag send --to " $1 " --message " $2 }' mobitags.csv |\
     bash
 ```
 
