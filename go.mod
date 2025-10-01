@@ -3,7 +3,7 @@ module github.com/opt-nc/mobitag
 go 1.25.1
 
 require (
-	github.com/charmbracelet/fang v0.4.2
+	github.com/charmbracelet/fang v0.4.3
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/fatih/color v1.18.0
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
