@@ -44,7 +44,7 @@ jobs:
           file_pattern: '*.gif *.webm'
       - name: 📦 Semantic Release
         id: release
-        uses: cycjimmy/semantic-release-action@ebcbc663748eae8da59a127a7d8b8e22f82514b2
+        uses: cycjimmy/semantic-release-action@b12c8f6015dc215fe37bc154d4ad456dd3833c90
         with:
           extra_plugins: |
             @semantic-release/exec
